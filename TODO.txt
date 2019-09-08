@@ -1,0 +1,11 @@
+- Implement a way to update all listings status (to update available count etc)
+- Take blockchain height from the cache.
+- Retry on empty responses in ethereum/api.js
+- Caching for mappings (not sure).
+
+- Remove Product contract
+- Remove EscrowService contract
+- Accept and Reject via EscrowServiceDirect contract
+- Store listing data on IPFS
+- Store listing hash on Store contract
+- Store listing info (availableCount, pendingCount) on Store contract

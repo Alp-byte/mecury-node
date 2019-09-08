@@ -1,0 +1,19 @@
+tr.current {
+    background-color: rgba(246, 168, 33, 0.27);
+}
+
+table {
+    width: 100%;
+}
+
+tr {
+    border-top: 1px solid rgba(246, 168, 33, 0.58);
+}
+
+tr.error {
+    background-color: rgba(246, 102, 33, 0.27);
+}
+
+td, th {
+    padding: 5px;
+}

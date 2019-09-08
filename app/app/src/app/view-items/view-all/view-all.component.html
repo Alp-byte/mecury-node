@@ -1,0 +1,52 @@
+<div class="container-fluid">
+
+    <div class="row" *ngIf="tag">
+        <div class="col-lg-12">
+            <div class="view-header">
+
+                <div class="header-icon">
+                    <i class="pe page-header-icon fa fa-tag"></i>
+                </div>
+                <div class="header-title">
+                    <h3 style="text-transform: uppercase">{{tag}}</h3>
+</div>
+</div>
+<hr>
+</div>
+</div>
+<div *ngIf="!tag">
+    <div class="view-header">
+        <div class="header-icon" tourAnchor="viewall">
+           <i class="pe page-header-icon fa fa-tag"></i>            
+        </div>
+        <div class="header-title">
+            <h3> {{'VIEW_ALL.TITLE' | translate}}</h3>
+            <small> {{'VIEW_ALL.SUBTITLE' | translate}}</small>
+        </div>
+    </div>
+</div>
+<div class="row">
+
+
+    <div class="col-md-12">
+        <div class="panel panel">
+
+            <div class="categories-inner" *ngIf="!tag  && publicCategories && publicCategories.length" [class.packed]="!showCats" [class.expanded]="showCats" >
+                <span class="category" (click)="goCat(category.code)" *ngFor="let category of publicCategories">
+                  <span *ngIf="category.goods > 0">
+                    {{'CATEGORIES.'+ (!category.code || category.code == 'undefined' ? 'undefined' : category.code) | translate }} ({{category.goods}})
+                  </span>
+                </span>
+            </div>
+            <div class="expandHide" (click)="showCats = !showCats" *ngIf="!showCats && publicCategories && publicCategories.length">{{'COMMON.SHOW_ALL' | translate}}</div>
+            <div class="expandHide" (click)="showCats = !showCats" *ngIf="showCats  && publicCategories && publicCategories.length">{{'COMMON.HIDE_ALL' | translate}}</div>
+            <item-list [items]="items" [update]="update"></item-list>
+
+            <h1 *ngIf="items && !items.length"> Loading.. </h1>
+
+
+
+        </div>
+    </div>
+</div>
+</div>

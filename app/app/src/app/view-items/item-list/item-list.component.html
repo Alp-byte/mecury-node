@@ -1,0 +1,127 @@
+<div class="panel-heading" [tourAnchor]="viewallContent" style="margin-bottom: 15px">
+  <div class="row">
+    <div class="col-md-4"><dropdown #divClick id="divClick" [title]="'Sort'" [menu]="dropdownMenu" (clicked)="dropdownClicked($event)"></dropdown></div>
+    <div class="col-md-2"></div>
+    <div class="col-md-6"><angular2-multiselect [data]="dropdownList" [(ngModel)]="selectedItems"
+                               [settings]="dropdownSettings"
+                               (onSelect)="onItemSelect()"
+                               (onDeSelect)="OnItemDeSelect($event)"
+                               (onSelectAll)="onSelectAll($event)"
+                               (onDeSelectAll)="onDeSelectAll($event)">
+    </angular2-multiselect></div>
+  </div>
+
+
+  <!--&lt;!&ndash; <div class="thumbs-control">-->
+      <!--<i class="fa fa-list" aria-hidden="true" [class.inactive]="thumbs" (click)="changeView(false)" style="margin-right: 10px;"></i>-->
+      <!--<i class="fa fa-th" aria-hidden="true" [class.inactive]="!thumbs" (click)="changeView(true)"></i>-->
+  <!--</div> &ndash;&gt;-->
+
+  <!--<select style="float: right" [(ngModel)]="selectedStores" (change)="selectchange(selectedStores)" multiple="multiple">-->
+    <!--<option *ngFor="let name of stores" value= {{name.sellerid}}>-->
+      <!--{{name.storename}}-->
+    <!--</option>-->
+  <!--</select>-->
+
+</div>
+
+
+
+<div id="allContent">
+  <ng-template ngFor let-item [ngForOf]="items" let-i="index">
+  <div class="panel panel-filled" [id]="item.address? item.address : item.hashIpfs" [class.thumbView]="thumbs" *ngIf="i < listLimit && item.active && item.availableCount" [class.expired]="item.expired" (click)="go(item)">
+    <div class="ipfs" *ngIf="(!item.address) || (item.address && item.hashIpfs)">IPFS</div>
+      <div class="panel-body">
+          <div class="col-sm-4 div-container" *ngIf="item.escrow!==item.seller && thumbs">
+              <div class="tooltip _top _steady _ready" [class.active]="showTip == i">
+                  <div class="tip-cont" (mouseenter)="showTip = i" (mouseleave)="showTip = -1">
+                      <span class="fa-stack fa-lg">
+                                                  <i class="fa fa-circle fa-stack-2x" style="color:#24262d"></i>
+                                                  <i class="fa fa-umbrella fa-stack-1x fa-inverse" style="color:#f5a212"></i>
+                                              </span>
+                  </div>
+                  <!-- <div class="tip">
+                      <div class="tip-tip"><span id="close-button" style="display: none;">×</span>Escrow Protected</div>
+                      <div class="tip-arrow"></div>
+                  </div> -->
+              </div>
+          </div>
+          <div class="row">
+
+              <div [class.col-md-3]="!thumbs" [class.img-container]="thumbs">
+                  <!-- <img *ngIf="item?.img?.length>0 && item?.img[0]!=''" class="img-responsive item-pic" src="{{item.img[0]}}" alt="{{item.description}}"
+                      style="border: 5px solid rgba(237, 237, 237, 0.6);" [ngStyle]="{'background-image': 'url(' + crop.image + ')'}" /> -->
+
+                  <div class="centeredBackgroundImage img-responsive item-pic" *ngIf="item?.img?.length>0 && item?.img[0]!=''" [ngStyle]="{'background-image': 'url(' + item.img[0] + ')'}"
+                        style="margin: auto;
+                        width: 90%;
+                        margin-top: 15px;
+                        height: 190px;" ></div>
+
+                  <img src="assets/images/noimage.jpeg" *ngIf="item?.img?.length==0 || item?.img[0]==''" class="img-responsive item-pic" style="border: 5px solid rgba(237, 237, 237, 0.6);"
+                      alt="">
+
+              </div>
+
+              <h3 class="m-t-xs m-b-none item-title" *ngIf="thumbs" title="{{item.title}}">{{item.title | truncate : [27, '..']}}</h3>
+              <div [class.col-md-9]="!thumbs" [class.col-md-12]="thumbs">
+                  <h3 class="m-t-xs m-b-none" *ngIf="!thumbs">{{item.title}}</h3>
+                  <p *ngIf="!thumbs">{{ item.description | truncate : [300, '..'] }}</p>
+                  <hr *ngIf="!thumbs" />
+
+                  <div class="row">
+                      <div [class.col-sm-4]="!thumbs" [class.col-sm-12]="thumbs">
+                          <div class="characteristics">
+                              <span class="name"> <i class="fa fa-clock-o"></i> </span> {{item.timestamp * 1000 | date}}
+                              -
+                              <span [class.green]="calcExpired(item.endTimestamp * 1000)==2" [class.yellow]="calcExpired(item.endTimestamp * 1000)==1"
+                                  [class.red]="calcExpired(item.endTimestamp * 1000)==0">{{item.endTimestamp * 1000 | date}}</span>
+                          </div>
+                          <div *ngIf="item.cat && item.cat.length"><b> {{'CATEGORIES.'+item?.cat[0] | translate}}</b></div>
+                          <div *ngIf="item?.tags?.length>1 && !thumbs"><span *ngFor="let tag of item.tags; let i = index">{{tag}}<ng-template [ngIf]="i!=item.tags.length-1">, </ng-template></span></div>
+                      </div>
+                      <div [class.col-sm-4]="!thumbs" [class.col-sm-12]="thumbs">
+                          <div style="margin-right: 5px; float:right; max-width: 220px;">
+                              <!-- <code>{{item.priceEth | number: '1.5'}} {{item.currency}}</code> -->
+                              <price [price]="item.priceEth" [currency]="'ETH'"></price>
+                            </div>
+                          <div *ngIf="!item.hashIpfs">
+                            {{'VIEW_ALL.AVAILABLE' | translate: translateParams[item.address]}}
+                          </div>
+                          <div *ngIf="item.hashIpfs">
+                            {{'VIEW_ALL.AVAILABLE' | translate: translateParams[item.hashIpfs]}}
+                          </div>
+                      </div>
+
+                    <div [class.col-sm-4]="!thumbs" [class.col-sm-12]="thumbs"><b>{{item.newStoreName}}</b></div>
+
+                      <div class="col-sm-4" *ngIf="item.escrow!==item.seller && !thumbs">
+                          <div class="tooltip _top _steady _ready" [class.active]="showTip == i">
+                              <div class="tip-cont" (mouseenter)="showTip = i" (mouseleave)="showTip = -1">
+                                  <span class="fa-stack fa-lg">
+                                                  <i class="fa fa-circle fa-stack-2x" style="color:#24262d"></i>
+                                                  <i class="fa fa-umbrella fa-stack-1x fa-inverse" style="color:#f5a212"></i>
+                                              </span>
+                              </div>
+                              <div class="tip">
+                                  <div class="tip-tip"><span id="close-button" style="display: none;">×</span>Escrow Protected</div>
+                                  <div class="tip-arrow"></div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="row" align="right" *ngIf="!thumbs">
+                      <form style="padding-right: 15px">
+                          <a [routerLink]="['/buy/single-item/'+item.address]" (click)="getIdOfSelected(item.address)" class="btn btn-warning">View Item</a>
+                      </form>
+                  </div>
+
+              </div>
+          </div>
+      </div>
+  </div>
+</ng-template>
+</div>
+
+<span class="load-more" id="load-more" (click)="loadMore()" *ngIf="items && listLimit < items.length">{{'COMMON.LOAD_MORE' | translate}}</span>

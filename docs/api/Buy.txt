@@ -1,0 +1,1 @@
+{"requestType":"buyItem", "goods":{"address":"0x73002193200d925a7c011463863b82a0f072c5a2", "pubkey":"0xaf5763d89a71439677399808886886363b84180eca126240d2014e4246be6730"}, "count":1, "payment":"100000000000", "privateMessage":"Private message here"}

@@ -1,0 +1,40 @@
+<div class="row" id="container">
+  
+      <div class="col-md-12">
+          <div class="encryption"  (click)="resetEncryption()">
+                  <div class="tooltip _left _steady _ready" style="position: absolute; right: 10px; top: 10px; cursor: pointer; left: auto;" [class.active]="showTip"> 
+                      <div class="tip-cont" (mouseenter)="showTip = true" (mouseleave)="showTip = false" style="float: right;">
+                          <span class="fa-stack fa-lg">
+                              <i class="fa fa-lock good" style="color: #ffa800" *ngIf="encrypted" aria-hidden="true"></i>
+                              <i class="fa fa-lock bad" style="color: white" *ngIf="!encrypted" aria-hidden="true"></i>                 
+                          </span>
+                      </div>
+                      <div class="tip">
+                        <div class="tip-tip"  *ngIf="encrypted"><span id="close-button" style="display: none;">×</span>
+                              {{'COMMON.ENCRYPTED_GOOD' | translate}}
+                          </div>
+                          <div class="tip-tip" *ngIf="!encrypted"><span id="close-button" style="display: none;">×</span>
+                              {{'COMMON.ENCRYPTED' | translate}}
+                          </div>
+                          <div class="tip-arrow"></div>
+                      </div>
+                  </div>
+              
+  
+          </div>
+          <ol class="chat" id="messages" [class.embed]="embed">
+              <li [class.other]="message.sender!='me'" *ngFor="let message of messages" [class.self]="message.sender=='me'">
+                  <div class="avatar"><img src="http://i.imgur.com/DY6gND0.png" draggable="false" /></div>
+                  <div class="msg">
+                      <p>{{message.message}}</p>
+                      <time *ngIf="!today(message.date)">{{message.date | date:"medium"}}</time>
+                      <time *ngIf="today(message.date)">{{message.date | date:"shortTime"}}</time>
+                  </div>
+              </li>
+  
+          </ol>
+          <form class="send-container" (submit)="sendMessage()">
+              <input class="textarea" type="text" [(ngModel)]="message" name="message" placeholder="Type here!" />
+          </form>
+      </div>
+  </div>

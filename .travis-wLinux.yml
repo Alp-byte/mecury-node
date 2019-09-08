@@ -1,0 +1,46 @@
+language: node_js
+node_js:
+- '8'
+matrix:
+  include:
+  - os: linux
+    sudo: required
+    dist: trusty
+  - os: osx
+    osx_image: xcode9.0
+cache:
+  yarn: true
+addons:
+  apt:
+    packages:
+    - icnsutils
+    - graphicsmagick
+    - xz-utils
+notifications:
+  email: false 
+script:
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install --no-install-recommends
+  -y graphicsmagick; fi
+- cd app & npm install sqlite3 --build-from-source --runtime=node --target_arch=x64
+- cd app/app && npm install
+- npm install -g @angular/cli
+- ls -l
+- ng build
+- cd ../..
+after_success:
+- npm run dist
+before_deploy:
+  - export RELEASE_PKG_FILE=$(find dist/ -type f \( -name "*.dmg" -or -name "*.deb" -or -name "*.AppImage"  \))
+  - echo "--START PKG FILE--"
+  - echo $RELEASE_PKG_FILE
+  - echo "--END PKG FILE--"
+  - echo "deploying $RELEASE_PKG_FILE to GitHub releases"
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    0c62c65953239938e5534e41f9332603a38a37dc
+  file_glob: true
+  file: "${RELEASE_PKG_FILE}"
+  on:
+    repo: Bitboost/bitboost-app-source

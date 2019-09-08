@@ -1,0 +1,11 @@
+.approve_address {
+    margin-left: 7px;
+}
+input.address {
+    width: 85%;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+.named {
+    color: #f5a212;
+}

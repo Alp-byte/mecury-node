@@ -1,0 +1,10 @@
+<form class="navbar-form navbar-left ng-pristine ng-valid ng-untouched">
+  <input class="form-control navbar-search" placeholder="Click here to search" 
+  onfocus="this.placeholder = ''"
+  onblur="this.placeholder = 'Click here to search'"  [(ngModel)]='term' type="text" tabindex="0"
+      (keydown)="keydown($event, -1)" (ngModelChange)="searchChanged($event)" [ngModelOptions]="{standalone: true}">
+      <div class="autocomplete" *ngIf="autocomplete.length">
+          <div *ngFor="let item of autocomplete; let i = index" tabindex="0" (keydown)="keydown($event, i)" class="autocomplete_item autocomplete-item-{{i}}"
+              (click)="choseItem(item)">{{item.title}}</div>
+      </div>
+</form>

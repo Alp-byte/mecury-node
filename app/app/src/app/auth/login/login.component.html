@@ -1,0 +1,40 @@
+<div class="back-link" ng-hide="loggedinStatus.skipped">
+
+
+</div>
+<div class="container-center animated slideInDown">
+    <div class="view-header">
+        <div class="header-icon">
+            <i class="pe page-header-icon pe-7s-lock"></i>
+        </div>
+        <div class="header-title">
+            <h3>{{'LOGIN.TITLE' | translate}}</h3>
+            <small>{{'LOGIN.SUBTITLE' | translate}}
+            </small>
+        </div>
+
+    </div>
+
+    <div class="panel panel-filled">
+        <div class="panel-body">
+            <form id="loginForm" novalidate (submit)="submit($event)">
+                <div class="form-group">
+                    <label class="control-label" for="password">{{'LOGIN.PASSPHRASE' | translate}}</label>
+                    <span class="error" *ngIf="this.error.length">{{this.error | translate}}
+                    </span>
+                    <input type="password" title="Please enter your passphrase" placeholder="required" required=""
+                        value="" name="password" id="password" class="form-control" ng-model="passphrase" autofocus="" [(ngModel)]="password">
+                    <span class="help-block small">{{'LOGIN.INSTRUCTIONS' | translate}}</span>
+                </div>
+                <div>
+                    <button class="btn btn-default" type="submit" [class.touched]="this.password.length">{{'LOGIN.LOGIN' | translate}}</button>
+
+
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+</div>

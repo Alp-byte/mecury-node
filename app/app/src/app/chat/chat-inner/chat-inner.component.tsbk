@@ -1,0 +1,124 @@
+import { GlobalService } from './../../utils/global.service';
+import { SocketService } from './../../utils/socket.service';
+import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, Input, EventEmitter } from '@angular/core';
+import * as $ from 'jquery';
+
+@Component({
+    selector: 'chat-inner',
+    templateUrl: './chat-inner.component.html',
+    styleUrls: ['./chat-inner.component.scss']
+})
+export class ChatInnerComponent implements OnInit {
+    @Input() address;
+    @Input() embed;
+    @Input() goInit: EventEmitter<any>;
+    private chats = [];
+    private chat = {};
+    constructor(
+        private socket: SocketService,
+        private gs: GlobalService,
+        private route: ActivatedRoute
+    ) {
+        this.chats = this.gs.getChatList();
+
+    }
+    private messages = []
+    encrypted;
+    private message = "";
+    private disposer;
+    ngOnInit() {
+        if (this.goInit)
+            this.goInit.subscribe(address => {
+                this.address = address;
+                this.getInfo();
+            })
+        else {
+            this.getInfo();
+        }
+
+
+
+
+
+
+    }
+
+    resetEncryption() {
+        this.gs.confirmation.emit('reset_encryption');
+        let subscripition = this.gs.confirmation.subscribe(answer => {
+            if (answer == 'yes') {
+                localStorage.removeItem('e_' + this.address);
+                localStorage.removeItem('encrypted_' + this.address);
+                // this.socket.sendMessage('Encryption passphrase reset', this.address);
+            }
+        });
+    }
+
+    getInfo() {
+        this.encrypted = this.gs.getEncryptedMark(this.address);
+        this.chats.forEach(chat => {
+            if (chat['address'] == this.address) {
+                this.chat = chat;
+                this.gs.modifyUnreadChat(chat['address'], -chat['unread']);
+
+            }
+        })
+        if (this.chat['address'] == '0x1f85abffd538a0362a62dbff62d0ace578e464fc') {
+
+            this.encrypted = true;
+        }
+
+        let messagesObj = this.gs.getMessages(this.address);
+        this.messages = messagesObj['messages'];
+        this.scrollMessages();
+        this.gs.messageRead.emit(this.address);
+        this.disposer = this.gs.newMessage.subscribe(message => {
+
+            if (message['sender'] == this.address) {
+                this.gs.saveMessage(this.address, message);
+                this.messages.push(message);
+
+                setTimeout(() => {
+                    $('.stroke-hamburgermenu').trigger('click');
+                    this.scrollMessages();
+                }, 50)
+
+
+            }
+        })
+    }
+
+    markRead() {
+        this.messages.forEach(message => message['read'] = true);;
+    }
+
+    sendMessage() {
+        if (this.message.length) {
+
+            this.gs.saveMessage(this.address, { message: this.message, sender: 'me', date: Date.now() });
+            this.socket.sendMessage(this.message, this.address)
+            this.messages.push({ message: this.message, date: Date.now(), sender: 'me' });
+            this.scrollMessages();
+            this.message = "";
+        }
+
+    }
+    ngOnDestroy() {
+        if (this.disposer)
+            this.disposer.unsubscribe();
+        this.gs.messageRead.emit(false);
+    }
+    scrollMessages() {
+        setTimeout(() => {
+            document.getElementById("messages").scrollTop = document.getElementById("messages").scrollHeight;
+        }, 50)
+
+    }
+
+    today(td) {
+        var now = new Date();
+        var startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        return td > startOfDay.getTime()
+    }
+} 

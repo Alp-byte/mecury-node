@@ -1,0 +1,33 @@
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="view-header">
+
+                <div class="header-icon">
+                    <i class="pe page-header-icon pe-7s-global"></i>
+                </div>
+                <div class="header-title">
+                    <h3> {{'CHAT.TITLE' | translate}}</h3>
+                    <small>{{'CHAT.LIST2' | translate}}</small>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chats">
+                <div class="chat" *ngFor="let chat of chats" (click)="openChat(chat)">
+                    <span class="type">{{chatService.getType(chat)}} of "{{chat.goods.title | truncate: [70, '..']}}"</span>
+                    <span class="address">{{chat.address}}</span>
+                    <div class="unread" *ngIf="chat.unread" [class.inactive]="!chat.unread"><i class="fa fa-envelope"></i></div>
+                    <span class="date">{{chat.date | date: 'medium'}}</span>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

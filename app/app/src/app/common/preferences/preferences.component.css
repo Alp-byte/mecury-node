@@ -1,0 +1,12 @@
+.row.buttons {
+    padding-left: 10px;
+    padding-bottom: 20px;
+}
+.row.gasChosen {
+    background-color: #bda487;
+}
+
+.row.gas {
+    padding: 5px;
+    color: white;
+}

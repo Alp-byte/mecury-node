@@ -1,0 +1,105 @@
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="view-header">
+
+                <div class="header-icon">
+                    <i class="pe page-header-icon  fa fa-tachometer"></i>
+                </div>
+                <div class="header-title">
+                    <h3>
+                        <span *ngIf="!othersAddress">{{'REVIEWS.MY' | translate}}</span>
+                        <span *ngIf="othersAddress">{{othersAddress}}</span> {{'REVIEWS.REVIEWS' | translate}}
+                    </h3>
+                    <small>{{'REVIEWS.USER_EXPLAINATION' | translate}}</small>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+    <!-- Begin Language Options -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="container">
+                <div class="total" *ngIf="reviews && reviews.amount && rating">
+                    <div class="summary">
+                        <span class="amount">
+                                    {{reviews.length}}
+                                </span> {{'COMMON.RATING' | translate}}
+                        <span class="rating">
+                                    {{rating | number: '.1-1'}}
+                                </span>
+                    </div>
+                    <div class="stars">
+                        <i class="fa " [class.fa-star-o]="rating<1" [class.fa-star]="rating>=1"></i>
+                        <i class="fa " [class.fa-star-o]="rating<2" [class.fa-star]="rating>=2"></i>
+                        <i class="fa " [class.fa-star-o]="rating<3" [class.fa-star]="rating>=3"></i>
+                        <i class="fa " [class.fa-star-o]="rating<4" [class.fa-star]="rating>=4"></i>
+                        <i class="fa " [class.fa-star-o]="rating<5" [class.fa-star]="rating>=5"></i>
+                    </div>
+                </div>
+                <div class="reviews">
+                    <div class="review" *ngFor="let review of reviews">
+                        <span class="date">
+                      {{review.timestamp | date}}
+                  </span>
+                        <p class="description">
+                            {{review.text}}
+                        </p>
+                        <span class="item" *ngIf="review.goods_name == 'buy'">
+                              {{'REVIEWS.BUYER_REVIEW' | translate}}
+                  </span>
+                        <span class="item" *ngIf="review.goods_name == 'sell'">
+                              {{'REVIEWS.SELLER_REVIEW' | translate}}
+                  </span>
+                        <p class="stars">
+                            <i class="fa " [class.fa-star-o]="review.stars<1" [class.fa-star]="review.stars>=1"></i>
+                            <i class="fa " [class.fa-star-o]="review.stars<2" [class.fa-star]="review.stars>=2"></i>
+                            <i class="fa " [class.fa-star-o]="review.stars<3" [class.fa-star]="review.stars>=3"></i>
+                            <i class="fa " [class.fa-star-o]="review.stars<4" [class.fa-star]="review.stars>=4"></i>
+                            <i class="fa " [class.fa-star-o]="review.stars<5" [class.fa-star]="review.stars>=5"></i>
+                        </p>
+                    </div>
+                    <!-- <div class="review">
+                  <span class="date">
+                          22.11.2017
+                      </span>
+                  <p class="description">
+                      testtest
+                  </p>
+                  <span class="item">
+                          Test Item X
+                      </span>
+                  <p class="stars">
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star-o"></i>
+                      <i class="fa fa-star-o"></i>
+                      <i class="fa fa-star-o"></i>
+                      <i class="fa fa-star-o"></i>
+                  </p>
+              </div>
+              <div class="review">
+                  <span class="date">
+                              22.11.2017
+                          </span>
+                  <p class="description">
+                      test
+                  </p>
+                  <span class="item">
+                              Test Item X
+                          </span>
+                  <p class="stars">
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                  </p>
+              </div> -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+    

@@ -1,0 +1,471 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="view-header">
+
+        <div class="header-icon">
+          <i class="pe page-header-icon pe-7s-wallet"></i>
+        </div>
+        <div class="header-title">
+          <h3>{{'WALLET.TITLE' | translate}}</h3>
+          <small>{{'WALLET.SUBTITLE' | translate}}</small>
+        </div>
+      </div>
+      <hr>
+    </div>
+  </div>
+
+
+
+
+
+
+  <div ng-show="loggedinStatus.loggedin">
+    <div class="row">
+      <div class="col-lg-12">
+
+        <div class="panel panel-filled panel-c-accent">
+          <div class="panel-body">
+            <div class="col-sm-12">
+              <h5>{{'WALLET.MY_BALANCE' | translate}}</h5>
+              <h2>
+                <code>{{wallet.balanceEth}} ETH </code> <br /><br />
+              </h2>
+              <h5>{{'WALLET.MY_BALANCE_BBT' | translate}}</h5>
+              <h2>
+                <code>{{balanceBBT | number: '1.1-5'}} BBT</code> <br /><br />
+              </h2>
+              <h5>{{'WALLET.MY_ADDRESS' | translate}}</h5>
+              <h3>
+                <code id="myAddressElement">{{wallet.address}}</code> <br />
+              </h3>
+                <button class="btn btn-default btn-xs" type="button" (click)="copyToClipboard('myAddressElement')">
+                  <span class="bold">{{'COMMON.COPY' | translate}}</span>
+                </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <!-- Begin Exchange Rate Section -->
+    <div class="row">
+      <div class="col-lg-12">
+
+        <div class="panel panel-filled" [class.collapsed]="!visual.exchangeRate">
+          <div class="panel-heading" (click)="visual.exchangeRate = !visual.exchangeRate">
+            <div class="panel-tools">
+              <a class="panel-toggle"><i class="fa fa-chevron-up"></i></a>
+            </div>
+            {{ 'WALLET.EXCHANGE_HEADER' | translate }}<br />
+          </div>
+          <div class="panel-body">
+            <div class="col-sm-6">
+              <div class="text-center">
+                <h3>
+                  <code>1 ETH : {{currency.ETH_BTC | number: '.3-9'}}</code> <br />
+                </h3>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="text-center">
+                <h3>
+                  <code>1 BTC : {{currency.BTC_ETH}}</code> <br />
+                </h3>
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <br />
+              <button class="btn btn-warning" type="button" (click)="refreshRates()">
+                <i class="fa fa-refresh"></i>
+                <span class="bold">{{'WALLET.REFRESH' | translate}}</span>
+              </button>
+              <button class="btn btn-success changelly" type="button" (click)="openChangelly()">
+                <i class="fa fa-refresh"></i>
+                <span class="bold">{{'WALLET.EXCHANGE_USD' | translate}}</span>
+              </button>
+
+
+              <br />
+              <small>{{ 'WALLET.EXCHANGE_VALID' | translate }} <span class="c-white">{{currency.time | date: "hh:mm:ss"}}</span></small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-- End Exchange Rate Section -->
+
+
+  <!-- Begin Refill BBT Section -->
+  <div class="row" tourAnchor="BBT">
+      <div class="col-lg-12">
+        <div class="panel panel-filled" [class.collapsed]="!visual.sendBBT">
+          <div class="panel-heading" (click)="visual.sendBBT = !visual.sendBBT">
+            <div class="panel-tools">
+              <a class="panel-toggle"><i class="fa fa-chevron-up"></i></a>
+            </div>
+            {{ 'WALLET.SEND_BBT' | translate }}<br />
+          </div>
+          <div class="panel-body">
+            <div class="col-sm-12">
+              <div class="form-group">
+                  {{ 'WALLET.SEND_BBT_AMOUNT' | translate }}  <br />
+                    <input id="withdrawEthAmount" name="withdrawEthAmount" [(ngModel)]="withdrawAmountBBT" required class="form-control" ng-model="withdrawEthAmount" placeholder="{{ 'COMMON.REQUIRED' | translate }}" [class.invalid]="withdrawAmountBBT > balanceBBT">
+                  <br />
+                  {{ 'WALLET.SEND_BBT_ADDRESS' | translate }}  <br />
+                  <input type="text" ng-model="withdrawalAddress" [(ngModel)]="sendBBT.withdraw" required class="form-control" name="withdrawalAddress" id="withdrawalAddress" placeholder="{{ 'COMMON.REQUIRED' | translate }}" [class.invalidValue]="invalidValue.BBTwidthdraw" (ngModelChange)="checkAddress('BBTwidthdraw', sendBBT.withdraw) || !sendBBT.withdraw.length" [disabled]="withdrawAmountBBT > balanceBBT">
+              </div>
+              <form novalidate>
+                <button type="submit" (click)="_sendBBT()" class="btn btn-success" [disabled]="invalidValue.BBTwidthdraw">
+                  <i class="fa fa-download"></i>
+                  <span class="bold">{{'WALLET.SEND_BBT_BUTTON' | translate}}</span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Refill BBT Section -->
+
+  <!-- Begin Load Wallet Section -->
+     <div class="row">
+      <div class="col-lg-12">
+        <div class="panel panel-filled" [class.collapsed]="!visual.refill">
+          <div class="panel-heading" (click)="visual.refill = !visual.refill">
+            <div class="panel-tools">
+              <a class="panel-toggle"><i class="fa fa-chevron-up"></i></a>
+            </div>
+            {{ 'WALLET.LOAD_WALLET' | translate }}
+          </div>
+
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <button class="btn btn-w-md btn-sm" [class.btn-warning]="visual.simpleRefill" [class.btn-default]="!visual.simpleRefill" (click)="visual.simpleRefill=true">{{'WALLET.SIMPLE_BUTTON' | translate}}</button>
+                  <button class="btn btn-w-md btn-sm" [class.btn-warning]="!visual.simpleRefill" [class.btn-default]="visual.simpleRefill" (click)="!visual.simpleRefill=false">{{'WALLET.ADVANCED_BUTTON' | translate}}</button>
+                </div>
+
+                <div class="buttons-margin" *ngIf="visual.simpleRefill">
+                  <h4>{{'WALLET.ETHAMOUNT' | translate}}</h4>
+                  <button class="btn btn-w-md" [class.btn-accent]="simpleRefill.amount == 1" [class.btn-default]="simpleRefill.amount !=1" (click)="simpleRefillTrigger(1)">1 ETH</button>
+                  <button class="btn btn-w-md" [class.btn-accent]="simpleRefill.amount == 5" [class.btn-default]="simpleRefill.amount !=5" (click)="simpleRefillTrigger(5)">5 ETH</button>
+                  <button class="btn btn-w-md" [class.btn-accent]="simpleRefill.amount == 10" [class.btn-default]="simpleRefill.amount !=10" (click)="simpleRefillTrigger(10)">10 ETH</button>
+                  <button class="btn btn-w-md" [class.btn-accent]="simpleRefill.amount == 20" [class.btn-default]="simpleRefill.amount !=20" (click)="simpleRefillTrigger(20)">20 ETH</button>
+                  <button class="btn btn-w-md" [class.btn-accent]="simpleRefill.amount == 50" [class.btn-default]="simpleRefill.amount !=50" (click)="simpleRefillTrigger(50)">50 ETH</button>
+
+                  <!-- Simple conversion instructions section - BEFORE -->
+                  <div class="col-sm-12" *ngIf="visual.simpleRefill">
+                  </div>
+                  <!-- End simple conversion instructions section - BEFORE -->
+
+                  <!-- Simple conversion instructions section - DURING -->
+                  <div class="col-sm-12" *ngIf="visual.simpleRefill && simpleRefill.state == 'processing'">
+                    {{ 'WALLET.PROCESSING' | translate }}
+                  </div>
+                  <!-- End simple conversion instructions section - DURING -->
+
+                  <!-- Simple conversion instructions section - AFTER -->
+
+
+
+
+                    <div class="col-sm-12" *ngIf="visual.simpleRefill && simpleRefill.state == 'refill' ">
+                    <h4 >{{'WALLET.INSTRUCTION_HEADER' | translate}}</h4>
+                    <span >{{'WALLET.SS_SEND_ADDRESS_1' | translate}}</span>  <br />
+                    <h3>
+                      <code id="btcElement">
+                        {{simpleRefill.amount * currency.ETH_BTC}}
+                      </code>
+                    </h3>
+                    <button class="btn btn-default btn-xs" type="button" (click)="copyToClipboard('btcElement')">
+                      <span class="bold">{{'COMMON.COPY' | translate}}</span>
+                    </button>
+                    <br /><br />
+                    <span>{{'WALLET.SS_SEND_ADDRESS_2' | translate}}</span>  <br />
+                    <h3>
+                      <code id="addressElement">
+                        {{simpleRefill.address}}
+                      </code>
+                    </h3>
+                    <button class="btn btn-default btn-xs" type="button" (click)="copyToClipboard('addressElement')">
+                      <span class="bold" >{{'COMMON.COPY' | translate}}</span>
+                    </button>
+                    <br /><br />
+                    {{ 'WALLET.10_MINUTE_LIMIT' | translate }} <br /><br />
+                    {{ 'WALLET.TIME_REMAINING' | translate }} <br />
+                    <h3>
+                    <code>
+                        {{timer}}</code>
+                        </h3>
+                    <br />
+                    {{ 'WALLET.COMPLETE_INSTRUCTIONS' | translate }} <br /> <br />
+                    <div class="buttons-margin">
+                      <button class="btn btn-success" type="button" (click)="resetSimple()" id="resetButton">
+                        <span class="bold" > {{'WALLET.COMPLETE_BUTTON' | translate}} </span>
+                      </button>
+                      <button class="btn btn-danger" type="button" (click)="resetSimple()" id="cancelButton">
+                        <span class="bold" > {{'WALLET.CANCEL_BUTTON' | translate}} </span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- End simple conversion instructions section - AFTER -->
+
+                </div>
+
+
+                 <div *ngIf="!visual.simpleRefill">
+                  <div class="col-sm-6">
+                    {{ 'WALLET.SPECIFIC_ETH_AMOUNT' | translate }}  <br />
+                    <input id="eth_amount" name="eth_amount" (ngModelChange)="valueChanged($event)" [(ngModel)]="advancedRefill.value" type="number" class="form-control" ng-model="ethAmount" placeholder="{{ 'COMMON.REQUIRED' | translate }}"  ng-keyup="calculateBTC()">
+
+                    <br />
+                    <button class="btn btn-warning" type="button" (click)="setMin()">
+                      <i class="fa fa-battery-1"></i>
+                      <span class="bold">{{'WALLET.MIN' | translate}}</span>
+                    </button>
+                    <button class="btn btn-warning" type="button" (click)="setMax()">
+                      <i class="fa fa-battery-4"></i>
+                      <span class="bold">{{'WALLET.MAX' | translate}}</span>
+                    </button>
+                  </div>
+
+                  <div class="col-sm-6">
+                    {{ 'WALLET.COST_BITCOIN' | translate }}  <br />
+                    <input id="btc_amount" [(ngModel)]="advancedRefill.value*currency.ETH_BTC" name="btc_amount" type="number" class="form-control" ng-model="btcAmount" disabled>
+                    <br />
+                    {{ 'WALLET.MINIMUM' | translate }}
+                    <code>BTC {{advancedRefill.minimum}}</code>
+                    {{ 'WALLET.MAXIMUM' | translate }}
+                    <code>BTC {{advancedRefill.maximum}}</code>
+                    <br />
+                    <small>{{ 'WALLET.LIMITS_VALID' | translate }} <span class="c-white">{{advancedRefill.time | date: "hh:mm:ss"}}</span></small>
+                  </div>
+
+                  <div class="col-sm-12">
+                    <br />
+                    {{ 'WALLET.ENTER_CHANGE_ADDRESS' | translate }}  <br />
+                    <input id="btc_change" name="btc_change" class="form-control" [(ngModel)]="advancedRefill.returnAddress" >
+                  </div>
+
+                  <div class="col-sm-12">
+                    <hr />
+                  </div>
+
+                  <!-- Advanced conversion instructions section - BEFORE -->
+                  <div class="col-sm-12" >
+                    <button class="btn btn-success" type="button" (click)="getExchangeInstructions()">
+                      <i class="fa fa-random" class="animateExchange"></i>
+                      <span class="bold">{{'WALLET.EXCHANGE_BUTTON' | translate}}</span>
+                    </button>
+                    <br />
+                    <small>{{'WALLET.EXCHANGE_INSTRUCTIONS' | translate}}</small>
+                  </div>
+                  <!-- End advanced conversion instructions section - BEFORE -->
+
+                  <!-- Advanced conversion instructions section - AFTER -->
+                  <div class="col-sm-12" ng-show="displayExchangeInstructions" *ngIf="advancedRefill.pending">
+                    <button class="btn btn-danger" type="button" (click)="reset()" id="resetButton">
+                      <i class="fa fa-history"></i>
+                      <span class="bold">{{'WALLET.RESET_BUTTON' | translate}}</span>
+                    </button>
+                    <br />
+                    <small>{{'WALLET.RESET_INSTRUCTIONS' | translate}}</small>
+                    <hr />
+                  </div>
+
+                  <div class="col-sm-12" ng-show="displayExchangeInstructions" *ngIf="advancedRefill.pending">
+                    <h5>{{'WALLET.INSTRUCTION_HEADER' | translate}}</h5>
+                  </div>
+
+                  <div class="col-sm-6" ng-show="displayExchangeInstructions" *ngIf="advancedRefill.pending">
+                    <span>{{'WALLET.SS_SEND_ADDRESS' | translate: {btcAmount: ethToBtc(advancedRefill.value)} }}</span>
+
+                     <br />
+                    <code>{{advancedRefill.deposit}}</code> <br />
+                    {{ 'WALLET.SS_ORDER_ID' | translate }} <br />
+                    <code>{{advancedRefill.orderId}}</code> <br />
+                    <small>{{'WALLET.SS_ORDER_ID_NOTE' | translate}}</small> <br /><br />
+                  </div>
+
+                  <div class="col-sm-6" ng-show="displayExchangeInstructions" *ngIf="advancedRefill.pending">
+                    <div ng-show="displayReturnAddress">
+                      {{ 'WALLET.BTC_RETURN_TO_ADDRESS' | translate }} <br />
+                      <code>{{advancedRefill.returnAddress}}</code>
+                    </div>
+                    {{ 'WALLET.ETH_TO_ADDRESS' | translate }} <br />
+                    <code>{{advancedRefill.withdrawal}}</code> <br />
+                    <small>{{'WALLET.CONFIRM_ETH_ADDRESS' | translate}}</small> <br /><br />
+                  </div>
+
+                  <div class="col-sm-12" ng-show="displayExchangeInstructions" *ngIf="advancedRefill.pending">
+                    {{ 'WALLET.10_MINUTE_LIMIT' | translate }} <br />
+                  </div>
+                  <!-- End advanced conversion instructions section - AFTER -->
+
+                </div>
+
+
+
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+  <!-- End Load Wallet Section -->
+
+  <!-- Begin Withdraw Section -->
+  <div class="row">
+      <div class="col-lg-12">
+        <div class="panel panel-filled" [class.collapsed]="!visual.withdraw">
+          <div class="panel-heading" (click)="visual.withdraw = !visual.withdraw">
+            <div class="panel-tools">
+              <a class="panel-toggle"><i class="fa fa-chevron-up"></i></a>
+            </div>
+            {{ 'WALLET.WITHDRAW' | translate }}<br />
+          </div>
+          <div class="panel-body">
+            <div class="col-sm-12">
+              <div class="form-group">
+                  {{ 'WALLET.ENTER_WITHDRAW_AMOUNT' | translate }}  <br />
+                    <input id="withdrawEthAmount" name="withdrawEthAmount" [(ngModel)]="withdrawAmount" required class="form-control" ng-model="withdrawEthAmount" placeholder="{{ 'COMMON.REQUIRED' | translate }}">
+                  <br />
+                    <button class="btn btn-warning" type="button" (click)="withdrawSetMax()">
+                      <span class="bold">{{'WALLET.WITHDRAW_MAX' | translate}}</span>
+                    </button>
+                  <br /><br />
+                  {{ 'WALLET.WITHDRAW_TEXT' | translate }}  <br />
+                  <input type="text" ng-model="withdrawalAddress" [(ngModel)]="advancedRefill.withdraw" required class="form-control" name="withdrawalAddress" id="withdrawalAddress" placeholder="{{ 'COMMON.REQUIRED' | translate }}" [class.invalidValue]="invalidValue.ETHwidthdraw" (ngModelChange)="checkAddress('ETHwidthdraw', advancedRefill.withdraw) || !advancedRefill.withdraw.length">
+              </div>
+              <form novalidate>
+                <button type="submit" (click)="checkAmount()" class="btn btn-success" [disabled]="invalidValue.ETHwidthdraw">
+                  <i class="fa fa-download"></i>
+                  <span class="bold">{{'WALLET.WITHDRAW_BUTTON' | translate}}</span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Withdraw Section -->
+
+
+  </div>
+</div>
+
+
+<div class="panel panel-filled" [class.collapsed]="!isHiddenETH">
+
+  <div class="panel-heading" (click)="isHiddenETH = !isHiddenETH">
+    <div class="panel-tools">
+      <a class="panel-toggle"><i class="fa fa-chevron-up"></i></a>
+    </div>
+    {{'COMMON.ETHTRANSACTION_LIST' | translate}}
+
+  </div>
+
+  <div class="panel-body" id="eth">
+    <div class="col-sm-12">
+      <div class="table-responsive">
+        <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+          <div class="row">
+            <div class="col-sm-12">
+              <table id="ethh" class="table table-striped table-hover ng-isolate-scope dataTable no-footer" style="display: table;">
+                <thead>
+                <tr role="row">
+
+                  <th class="ng-scope" [class.sorting]="orderBy.name !== 'from'" [class.sorting_asc]="orderBy.name == 'from' && !orderBy.desc"
+                      [class.sorting_desc]="orderBy.name == 'from' && orderBy.desc"
+                      (click)="sortETHTransaction('from', $event)"
+                      [style.width]="'40%'">{{'COMMON.SENDER' | translate}}</th>
+                  <th class="ng-scope" [class.sorting]="orderBy.name !== 'to'" [class.sorting_asc]="orderBy.name == 'to' && !orderBy.desc"
+                      [class.sorting_desc]="orderBy.name == 'to' && orderBy.desc"
+                      (click)="sortETHTransaction('to', $event)"
+                      [style.width]="'20%'">{{'COMMON.RECIEVER' | translate}}</th>
+                  <th class="ng-scope" [class.sorting]="orderBy.name !== 'value'" [class.sorting_asc]="orderBy.name == 'value' && !orderBy.desc"
+                      [class.sorting_desc]="orderBy.name == 'value' && orderBy.desc"
+                      (click)="sortETHTransaction('value', $event)" [style.width]="'20%'">{{'COMMON.AMOUNT' | translate}}</th>
+                  <th class="ng-scope" [class.sorting]="orderBy.name !== 'timeStamp'" [class.sorting_asc]="orderBy.name == 'timeStamp' && !orderBy.desc"
+                      [class.sorting_desc]="orderBy.name == 'timeStamp' && orderBy.desc"
+                      (click)="sortETHTransaction('timeStamp', $event)" [style.width]="'20%'">{{'COMMON.DATE' | translate}}</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <td colspan=4 class="noitems" *ngIf="ETHtransactions && !ETHtransactions.length">
+                  <span>{{'COMMON.NO_TRANSACTION' | translate}}</span>
+                </td>
+                <tr *ngFor="let ethtransaction of ETHtransactions; let i=index">
+                  <td>{{ethtransaction.from}}</td>
+                  <td>{{ethtransaction.to}}</td>
+                  <td *ngIf="ethtransaction.value">{{ethtransaction.value}} ETH </td>
+                  <td>{{ ethtransaction.timeStamp * 1000 | date}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="panel panel-filled" [class.collapsed]="!isHiddenBBT">
+  <div class="panel-heading" (click)="isHiddenBBT = !isHiddenBBT">
+    <div class="panel-tools">
+      <a class="panel-toggle"><i class="fa fa-chevron-up"></i></a>
+    </div>
+    {{'COMMON.BBTTRANSACTION_LIST' | translate}}
+  </div>
+
+  <div class="panel-body" id="bbt">
+    <div class="col-sm-12">
+      <div class="table-responsive">
+        <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+          <div class="row">
+            <div class="col-sm-12">
+              <table id="bbtt" class="table table-striped table-hover ng-isolate-scope dataTable no-footer" style="display: table;">
+                <thead>
+                <tr role="row">
+
+                  <th class="ng-scope" [class.sorting]="orderBy.name !== 'from'" [class.sorting_asc]="orderBy.name == 'from' && !orderBy.desc"
+                      [class.sorting_desc]="orderBy.name == 'from' && orderBy.desc"
+                      (click)="sortBBTTransaction('from', $event)"
+                      [style.width]="'40%'">{{'COMMON.SENDER' | translate}}</th>
+                  <th class="ng-scope" [class.sorting]="orderBy.name !== 'to'" [class.sorting_asc]="orderBy.name == 'to' && !orderBy.desc"
+                      [class.sorting_desc]="orderBy.name == 'to' && orderBy.desc"
+                      (click)="sortBBTTransaction('to', $event)"
+                      [style.width]="'20%'">{{'COMMON.RECIEVER' | translate}}</th>
+                  <th class="ng-scope" [class.sorting]="orderBy.name !== 'value'" [class.sorting_asc]="orderBy.name == 'value' && !orderBy.desc"
+                      [class.sorting_desc]="orderBy.name == 'value' && orderBy.desc"
+                      (click)="sortBBTTransaction('value', $event)" [style.width]="'20%'">{{'COMMON.AMOUNT' | translate}}</th>
+                  <th class="ng-scope" [class.sorting]="orderBy.name !== 'timeStamp'" [class.sorting_asc]="orderBy.name == 'timeStamp' && !orderBy.desc"
+                      [class.sorting_desc]="orderBy.name == 'timeStamp' && orderBy.desc"
+                      (click)="sortBBTTransaction('timeStamp', $event)" [style.width]="'20%'">{{'COMMON.DATE' | translate}}</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <td colspan=4 class="noitems" *ngIf="BBTtransactions && !BBTtransactions.length">
+                  <span>{{'COMMON.NO_TRANSACTION' | translate}}</span>
+                </td>
+                <tr *ngFor="let bbttransaction of BBTtransactions; let i=index">
+                  <td>{{bbttransaction.from}}</td>
+                  <td>{{bbttransaction.to}}</td>
+                  <td *ngIf="bbttransaction.value">{{bbttransaction.value}} BBT</td>
+                  <td *ngIf="bbttransaction.timeStamp">{{ bbttransaction.timeStamp * 1000 | date}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

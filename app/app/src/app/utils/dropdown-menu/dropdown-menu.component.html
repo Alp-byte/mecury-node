@@ -1,0 +1,25 @@
+<div class="overlay" *ngIf="opened" (click)="closeMenu()"></div>
+<div class="dropdown">
+  <input id="toggle2" [(ngModel)]="opened" type="checkbox" (change)="change($event)">
+  <label for="toggle2" class="animate" id="title">
+    <ng-template [ngIf]="!activeItem">{{title}}</ng-template>
+    <ng-template [ngIf]="activeItem">{{activeItem.name | translate}}
+      <!--<i *ngIf="activeItem.type" class="fa fa-sort-amount-{{activeItem.type}}" aria-hidden="true"></i>-->
+      <i *ngIf="activeItem.name == 'DROPDOWN.PRICE'" class="fa fa-sort-amount-{{activeItem.type}}" aria-hidden="true"></i>
+      <i *ngIf="activeItem.name == 'DROPDOWN.LISTED'" class="fa fa-cloud-upload" style="size: 4px" aria-hidden="true"></i>
+      <i *ngIf="activeItem.name == 'DROPDOWN.ENDS'" class="fa fa-clock-o" style="size: 4px" aria-hidden="true"></i>
+    </ng-template> <i *ngIf="!activeItem" class="fa fa-caret-down"></i>
+  </label>
+  <ul class="animate" [hidden]="!opened">
+    <li class="animate"
+        *ngFor="let item of menu; let i = index"
+        [class.active]="item.active"
+        (click)="_clicked(i)">{{item.name | translate}}
+      <i *ngIf="item.name == 'DROPDOWN.PRICE'" class="fa fa-sort-amount-{{item.type}}" aria-hidden="true"></i>
+      <i *ngIf="item.name == 'DROPDOWN.LISTED'" class="fa fa-cloud-upload" style="size: 4px" aria-hidden="true"></i>
+      <i *ngIf="item.name == 'DROPDOWN.ENDS'" class="fa fa-clock-o" style="size: 4px" aria-hidden="true"></i>
+      <!--<i *ngIf="item.type" class="fa fa-sort-amount-{{item.type}}" aria-hidden="true"></i>-->
+    </li>
+  </ul>
+</div>
+

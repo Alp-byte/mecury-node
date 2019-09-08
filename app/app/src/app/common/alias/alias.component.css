@@ -1,0 +1,24 @@
+.address {
+    width: 74.5%;
+    float: right;
+    padding-left: 10px;
+}
+.name {
+    width: 25.5%;
+    float: left;
+    border-right: 1px solid gray;
+}
+.alias {
+    width: 100%;
+    background-color: #3c3f47;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 15px;
+    height: 39px;
+}
+
+.delete {
+    position: absolute;
+    right: 19px;
+    margin-top: -3px;
+}

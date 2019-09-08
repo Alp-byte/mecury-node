@@ -1,0 +1,9 @@
+<div class="newslist">
+    <div class="news" *ngFor="let news of newsList; let i = index" (click)="go(news)">
+        <img [src]="news.thumbnail ? news.thumbnail : 'http://bancroftfht.com/wp-content/themes/gonzo/images/no-image-featured-image.png'"
+           style="min-height: 85px;" />
+        <code style="font-size: 89%;"> {{news.pubDate | date:'medium'}}</code>
+        <p class="title">{{news.title | truncate : [50, '..'] }}</p>
+
+    </div>
+</div>

@@ -1,0 +1,293 @@
+<div class="container-fluid" [class.noanimation]="noanimation">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="view-header">
+
+                <div class="header-icon">
+                    <i class="pe page-header-icon pe-7s-news-paper"></i>
+                </div>
+                <div class="header-title">
+                    <h3> {{'NEWITEM_WIZARD.TITLE' | translate}}</h3>
+                    <small> {{'NEWITEM_WIZARD.SUBTITLE' | translate}}</small>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+    <div class="progress" *ngIf="!successfullyListed">
+        <div class="progress-width" [style.width]="(step+1)*14.285+'%'" [class.success]="step==6"> </div>
+    </div>
+
+    <div class="panel panel-filled no-scroll" *ngIf="!successfullyListed">
+        <a class=" switchPro" type="button" *ngIf="step==0" (click)="switchPro()">
+            <span class="bold">{{'NEWITEM_WIZARD.SWITCH_PRO' | translate}}</span>
+        </a>
+        <div class="panel-body">
+            <div class="step">
+
+
+
+                <div class="step-content" [class.stepshow]="!stepback && step==0" [class.stepshowback]="stepback && step==0" [class.stephideprev]="step>0">
+                    <h1>{{'NEWITEM_WIZARD.STEP_0_TITLE' | translate}}</h1>
+                    <p>{{'NEWITEM_WIZARD.STEP_0_DESC' | translate}}</p>
+                    <div class="step-inner">
+                        <input type="text" (keyup)="keyup($event)" [(ngModel)]="data.title" (ngModelChange)="inputChange()" required class="form-control"
+                            name="itemTitle" id="itemTitle">
+                    </div>
+
+                </div>
+
+                <div class="step-content" [class.stepshow]="!stepback && step==1" [class.stepshowback]="stepback && step==1" [class.stephidenext]="step<1"
+                    [class.stephideprev]="step>1">
+                    <h1>{{'NEWITEM_WIZARD.STEP_1_TITLE' | translate}}</h1>
+                    <p>{{'NEWITEM_WIZARD.STEP_1_DESC' | translate}}</p>
+                    <textarea class="form-control" [(ngModel)]="data.description" (ngModelChange)="inputChange()" name="itemDescription" rows="15"
+                        maxlength="5000"></textarea>
+                </div>
+
+                <div class="step-content" [class.stepshow]="!stepback && step==2" [class.stepshowback]="stepback && step==2" [class.stephidenext]="step<2"
+                    [class.stephideprev]="step>2">
+                    <h1>{{'NEWITEM_WIZARD.STEP_2_TITLE' | translate}}</h1>
+                    <p>{{'NEWITEM_WIZARD.STEP_2_DESC' | translate}}</p>
+                    <div class="imgur-container">
+                        <input type="text" name="dataimg{{0}}" (ngModelChange)="inputChange()" class="form-control upload-input" [(ngModel)]="data.img[0]">
+                        <a class="btn btn-warning" (click)="openPic(0)">{{'COMMON.UPLOAD' | translate}}</a>
+                        <a class="btn btn-warning" (click)="removePic(0)">
+                            <i class="fa fa-close"></i>
+                        </a>
+                    </div>
+                    <div class="imgur-container">
+                        <input type="text" name="dataimg{{0}}" (ngModelChange)="inputChange()" class="form-control upload-input" [(ngModel)]="data.img[1]">
+                        <a class="btn btn-warning" (click)="openPic(1)">{{'COMMON.UPLOAD' | translate}}</a>
+                        <a class="btn btn-warning" (click)="removePic(1)">
+                            <i class="fa fa-close"></i>
+                        </a>
+                    </div>
+                    <div class="imgur-container">
+                        <input type="text" name="dataimg{{0}}" (ngModelChange)="inputChange()" class="form-control upload-input" [(ngModel)]="data.img[2]">
+                        <a class="btn btn-warning" (click)="openPic(2)">{{'COMMON.UPLOAD' | translate}}</a>
+                        <a class="btn btn-warning" (click)="removePic(2)">
+                            <i class="fa fa-close"></i>
+                        </a>
+                    </div>
+                    <div class="imgur-container">
+                        <input type="text" name="dataimg{{0}}" (keydown)="keyup($event)" (ngModelChange)="inputChange()" class="form-control upload-input"
+                            [(ngModel)]="data.img[3]">
+                        <a class="btn btn-warning" (click)="openPic(3)">{{'COMMON.UPLOAD' | translate}}</a>
+                        <a class="btn btn-warning" (click)="removePic(3)">
+                            <i class="fa fa-close"></i>
+                        </a>
+                    </div>
+                    <div class="preview-img-container">
+                        <div *ngFor="let img of data.img" class="preview-img">
+
+                            <div class="img-inner" [ngStyle]="{'background-image': 'url(' + img + ')'}"></div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+                <div class="step-content" [class.stepshow]="!stepback && step==3" [class.stepshowback]="stepback && step==3" [class.stephidenext]="step<3"
+                    [class.stephideprev]="step>3">
+                    <h1>{{'NEWITEM_WIZARD.STEP_3_TITLE' | translate}}</h1>
+                    <p>{{'NEWITEM_WIZARD.STEP_3_DESC' | translate}}</p>
+                    <div class="form-group tt-info hover-tt-top">
+                        <label>
+                            <span>{{'LIST_NEW_ITEM.CATEGORY' | translate}}</span>
+                        </label>
+
+                        <input ngui-auto-complete (click)="data.cat[0]" [(ngModel)]="data.cat[0]" (ngModelChange)="inputChange(100)" [source]="categories"
+                        />
+
+
+                    </div>
+                    <div class="form-group">
+                        <input type="text" [(ngModel)]="data.tags[0]" class="form-control tag" name="tag1" id="tag1" placeholder="{{ 'LIST_NEW_ITEM.TAG_1' | translate }}">
+
+                        <input type="text" [(ngModel)]="data.tags[1]" class="form-control tag" name="tag2" id="tag2" placeholder="{{ 'LIST_NEW_ITEM.TAG_2' | translate }}">
+
+                        <input type="text" [(ngModel)]="data.tags[2]" (keydown)="keyup($event)" class="form-control tag" name="tag3" id="tag3" placeholder="{{ 'LIST_NEW_ITEM.TAG_3' | translate }}">
+                    </div>
+                </div>
+
+                <div class="step-content" [class.stepshow]="!stepback && step==4" [class.stepshowback]="stepback && step==4" [class.stephidenext]="step<4"
+                    [class.stephideprev]="step>4">
+                    <h1>{{'NEWITEM_WIZARD.STEP_4_TITLE' | translate}}</h1>
+                    <p>{{'NEWITEM_WIZARD.STEP_4_DESC' | translate}}</p>
+                    <div class="row" *ngFor="let ship of data.ship; let i = index" [class.error]="shipError==i">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="shipping_method_1">
+                                    <span>{{'NEWITEM_WIZARD.METHOD' | translate}}</span>
+                                </label>
+                                <input type="text" [(ngModel)]="ship.method" (ngModelChange)="shipChange(i)" class="form-control" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="shipping_cost_1">
+                                    <span>{{'NEWITEM_WIZARD.COST' | translate}} (ETH)</span>
+                                </label>
+                                <input type="text" [(ngModel)]="ship.cost" (ngModelChange)="shipChange(i)" (keyup)="conversion(i)" [ngModelOptions]="{standalone: true}"
+                                    class="form-control" DecimalsFormatter>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="step-content" [class.stepshow]="!stepback && step==5" [class.stepshowback]="stepback && step==5" [class.stephidenext]="step<5"
+                    [class.stephideprev]="step>5">
+                    <h1>{{'NEWITEM_WIZARD.STEP_5_TITLE' | translate}}</h1>
+                    <p>{{'NEWITEM_WIZARD.STEP_5_DESC' | translate}}</p>
+                    <div class="step-inner">
+                        <input type="text" (keyup)="keyup($event)" [(ngModel)]="data.escrow" (ngModelChange)="arbitrationChange($event)" required
+                            class="form-control" name="itemTitle" id="itemTitle" [class.invalidValue]="invalidValue.escrow" (ngModelChange)="checkAddress('escrow', data.escrow)">
+                    </div>
+
+                </div>
+
+                <div class="step-content" [class.stepshow]="!stepback && step==6" [class.stepshowback]="stepback && step==6" [class.stephidenext]="step<6"
+                    [class.stephideprev]="step>6">
+                    <h1>{{'NEWITEM_WIZARD.STEP_6_TITLE' | translate}}</h1>
+                    <p>{{'NEWITEM_WIZARD.STEP_6_DESC' | translate}}</p>
+                    <form name="item_details2" novalidate>
+                        <div class=form-group>
+                            <label>
+                                <span>{{'LIST_NEW_ITEM.QUANTITY_TO_SELL' | translate}}</span>
+                            </label>
+                            <div class="input-group ng-scope ng-not-empty ng-dirty ng-valid ng-valid-parse">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" (click)="decQuantity()">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </span>
+                                <input type="text" class="form-control spinner-box ng-pristine ng-untouched ng-valid ng-not-empty" [(ngModel)]="data.saleCount"
+                                    [ngModelOptions]="{standalone: true}" (ngModelChange)="inputChange()">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" (click)="incQuantity()">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="price">
+                                <span>{{'LIST_NEW_ITEM.PRICE' | translate}} (ETH)</span>
+                            </label>
+                            <input type="text" name="price_" [(ngModel)]="data.price" (ngModelChange)="inputChange()" required class="form-control" id="price"
+                                (keyup)="priceConversion()" placeholder="{{ 'COMMON.REQUIRED' | translate }}">
+                        </div>
+                        <div class="error-block" *ngIf="!data.price.length">
+                          <p ng-message="required" style="text-align: left">{{'ERROR.PRICE_REQUIRED' | translate}}</p>
+                        </div>
+                        <div class="error-block" *ngIf="data.price.length && data.price == 0">
+                          <p style="text-align: left">{{'ERROR.PRICE_GRATER_THAN_ZERO' | translate }}</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="duration">
+                                <span>{{'LIST_NEW_ITEM.LISTING_DURATION' | translate}}</span>
+                            </label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" (click)='duration = 1209600' [checked]="duration == 1209600" value=1209600>
+                                    <span>{{'LIST_NEW_ITEM.2_WEEKS' | translate}}</span>
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" (click)='duration = 2419200' [checked]="duration == 2419200" value=2419200>
+                                    <span>{{'LIST_NEW_ITEM.4_WEEKS' | translate}}</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="duration">
+                                <span>{{'LIST_NEW_ITEM.AGREEMENT_TITLE' | translate}}</span>
+                            </label>
+                            <div class="radio rmv">
+                                <label>
+                                    <input type="checkbox" [(ngModel)]="agreement" name="agreement">
+                                    <span>{{'LIST_NEW_ITEM.AGREEMENT_SHORT' | translate}}.
+                                        <a (click)="showAgreement()">{{'LIST_NEW_ITEM.AGREEMENT_LINK' | translate}}</a>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+
+
+
+                <button class="btn btn-warning btn-prev" type="button" (click)="prevStep()" *ngIf="step>0">
+                    <i class="fa fa-arrow-left"></i>
+                    {{'NEWITEM_WIZARD.PREV_STEP' | translate}}
+                </button>
+                <button class="btn btn-next" *ngIf="steps.length-1!=step" [class.btn-warning]="!steps[step].valid" [class.btn-warning]="steps[step].valid"
+                    type="button" (click)="nextStep()" [disabled]="!steps[step].valid">
+                    {{'NEWITEM_WIZARD.NEXT_STEP' | translate}}
+                    <i class="fa fa-arrow-right"></i>
+                </button>
+                <button class="btn btn-next submit" *ngIf="steps.length-1==step" [class.btn-warning]="!steps[step].valid" [class.btn-success]="steps[step].valid"
+                    type="button" (click)="submit()" [disabled]="!steps[step].valid || !agreement || price === 0 ">
+                    {{'NEWITEM_WIZARD.SUBMIT' | translate}}
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div *ngIf="successfullyListed">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="panel complete panel-filled panel-c-accent">
+                    <div class="panel-heading">
+                        <span>{{'LIST_NEW_ITEM.SUCCESS' | translate}}</span>
+                    </div>
+                    <div class="panel-body">
+                        <span>{{'LIST_NEW_ITEM.SUCCESS_TEXT' | translate}}</span>
+                        <br />
+                        <h4>
+                            <code id="myAddressElement">{{item_address}}</code>
+                            <br />
+                        </h4>
+                        <button class="btn btn-default btn-xs" type="button" (click)="copyToClipboard('myAddressElement')">
+                            <span class="bold">{{'COMMON.COPY' | translate}}</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- The Modal -->
+    <div id="overflow" (click)="closePic($event)" [class.hidden]="!modal"></div>
+
+    <div id="picModal" class="modal" *ngFor="let crop of cropImages; let i = index;" [class.hidden]="!cropImages[i].active">
+        <div class="cropper-container">
+            <img-cropper [image]="crop" [settings]="cropperSettings"></img-cropper>
+        </div>
+
+        <div class="crop-image" [ngStyle]="{'background-image': 'url(' + crop.image + ')'}"></div>
+        <div style="clear: both"> </div>
+        <div class="form-group modal-buttons">
+            <button class="btn btn-warning" type="button" [disabled]="!cropImages[i].image" (click)="sendImage($event, i)">
+                <i class="fa fa-check"></i>
+                <span class="bold">{{'COMMON.UPLOAD' | translate}}</span>
+            </button>
+            <button class="btn btn-warning" type="button" (click)="closePic($event)">
+                <i class="fa fa-times"></i>
+                <span class="bold">{{'COMMON.CANCEL' | translate}}</span>
+            </button>
+        </div>
+
+    </div>
+</div>

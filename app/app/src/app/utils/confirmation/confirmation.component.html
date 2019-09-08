@@ -1,0 +1,156 @@
+<!-- The Modal -->
+<div id="overflow" (click)="cancel()" [class.hidden]="!modal"></div>
+
+<div id="picModal" class="modal" [class.hidden]="!modal" [class.popGas]="gas" [class.prelisting]="type=='prelisting'">
+    <ng-template [ngIf]="type=='pop'">
+        <h2>{{'COMMON.CONFIRM' | translate}}</h2>
+        <p *ngIf="gas || gas_bbt">{{'COMMON.GAS_AWARE' | translate}}
+            <ng-template [ngIf]="bbt">
+                <br/>{{'COMMON.BBT_AWARE' | translate}}</ng-template>
+        </p>
+        <div class="form-group modal-buttons">
+            <button class="btn btn-warning" type="button" (click)="confirm()">
+                <i class="fa fa-check"></i>
+                <span class="bold">{{'COMMON.YES' | translate}}</span>
+            </button>
+            <button class="btn btn-warning" type="button" (click)="close()">
+                <i class="fa fa-times"></i>
+                <span class="bold">{{'COMMON.NO' | translate}}</span>
+            </button>
+        </div>
+    </ng-template>
+    <ng-template [ngIf]="type=='reset_encryption'">
+        <h2>{{'COMMON.RESET_ENCRYPTION' | translate}}</h2>
+        <div class="form-group modal-buttons">
+            <button class="btn btn-warning" type="button" (click)="confirm()">
+                <i class="fa fa-check"></i>
+                <span class="bold">{{'COMMON.YES' | translate}}</span>
+            </button>
+            <button class="btn btn-warning" type="button" (click)="close()">
+                <i class="fa fa-times"></i>
+                <span class="bold">{{'COMMON.NO' | translate}}</span>
+            </button>
+        </div>
+    </ng-template>
+    <ng-template [ngIf]="type=='logout'">
+        <h2>{{'COMMON.CONFIRM' | translate}}</h2>
+
+        <p>{{'COMMON.WILL_LOGOUT' | translate}}</p>
+        <div class="form-group modal-buttons">
+            <button class="btn btn-warning" type="button" (click)="confirm()">
+                <i class="fa fa-check"></i>
+                <span class="bold">{{'COMMON.YES' | translate}}</span>
+            </button>
+            <button class="btn btn-warning" type="button" (click)="close()">
+                <i class="fa fa-times"></i>
+                <span class="bold">{{'COMMON.NO' | translate}}</span>
+            </button>
+        </div>
+    </ng-template>
+    <ng-template [ngIf]="type=='ipfsNoDaemon'">
+        <h2>{{'COMMON.IPFS_NO_DAEMON_HEADER' | translate}}</h2>
+
+        <p>{{'COMMON.IPFS_NO_DAEMON_DESC' | translate}}</p>
+        <div class="form-group modal-buttons">
+            <button class="btn btn-warning" type="button" (click)="goToIpfsDescription()">
+                <i class="fa fa-check"></i>
+                <span class="bold">{{'COMMON.READ_MORE' | translate}}</span>
+            </button>
+            <button class="btn btn-warning" type="button" (click)="close()">
+                <i class="fa fa-times"></i>
+                <span class="bold">{{'COMMON.CONTINUE' | translate}}</span>
+            </button>
+        </div>
+    </ng-template>
+    <ng-template [ngIf]="type=='cheatcode'">
+        <h2>{{'LOGIN.CHEATCODE' | translate}}</h2>
+        <div class="form-group modal-buttons">
+            <button class="btn btn-warning" type="button" (click)="submit()">
+                <i class="fa fa-check"></i>
+                <span class="bold">{{'COMMON.OK' | translate}}</span>
+            </button>
+        </div>
+    </ng-template>
+    <ng-template [ngIf]="type=='prelisting'">
+        <div class="text-alignment margin-set">
+            <p>{{'COMMON.PRELISTING_INTRO' | translate}}</p>
+            <br>
+            <p>{{'COMMON.APP_INTRODUCTION' | translate}}</p>
+            <p>{{'COMMON.COOPERATION' | translate}}</p>
+            <br>
+            <br>
+            <h2 class="text-alignment-center">{{'COMMON.HEADER_VALUE' | translate}}</h2>
+            <p class="text-alignment-center">{{'COMMON.TIME_UPDATE' | translate}}</p>
+            <p>{{'COMMON.P_1' | translate}}</p>
+            <ol>
+                <li>{{'COMMON.BULLET_1' | translate}}</li>
+                <li>{{'COMMON.BULLET_2' | translate}}</li>
+            </ol>
+            <br>
+            <p>{{'COMMON.P_2' | translate}}</p>
+            <br>
+            <p>{{'COMMON.P_3' | translate}}</p>
+            <br>
+            <p>{{'COMMON.P_4' | translate}}</p>
+            <br>
+            <p>{{'COMMON.P_5' | translate}}</p>
+            <br>
+            <p>{{'COMMON.P_6' | translate}}</p>
+            <br>
+            <p>{{'COMMON.P_7' | translate}}</p>
+        </div>
+
+    </ng-template>
+    <ng-template [ngIf]="type=='connection_error'">
+        <h2>{{'ERROR.CONNECTION_ERROR_TITLE' | translate}}</h2>
+        <p>{{'ERROR.CONNECTION_ERROR_DESCRIPTION' | translate}}</p>
+    </ng-template>
+    <ng-template [ngIf]="type=='wait_for_sync'">
+        <h2>{{'ERROR.SYNC_TITLE' | translate}}</h2>
+        <p>{{'ERROR.SYNC_DESCRIPTION' | translate}}</p>
+
+        <div class="preloader-css cacheLoaderUp" id="small-loader" style="
+            position: relative;
+            margin: auto;
+            margin-left: 120px;
+            margin-top: 30px;
+            bottom: 0;
+        ">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </ng-template>
+    <ng-template [ngIf]="type=='no_bbt'">
+        <h2>{{'ERROR.NO_BBT' | translate}}</h2>
+        <p>{{'ERROR.NO_BBT_DESCRIPTION' | translate}}</p>
+        <div class="form-group modal-buttons">
+            <button class="btn btn-warning" type="button" (click)="goWallet()">
+                <i class="fa fa-check"></i>
+                <span class="bold">{{'COMMON.GOT_IT' | translate}}</span>
+            </button>
+        </div>
+    </ng-template>
+    <ng-template [ngIf]="type=='no_eth'">
+        <h2>{{'ERROR.NO_ETH' | translate}}</h2>
+        <p>{{'ERROR.NO_ETH_DESCRIPTION' | translate}}</p>
+        <div class="form-group modal-buttons">
+            <button class="btn btn-warning" type="button" (click)="goWallet()">
+                <i class="fa fa-check"></i>
+                <span class="bold">{{'COMMON.GOT_IT' | translate}}</span>
+            </button>
+        </div>
+    </ng-template>
+    <ng-template [ngIf]="type=='no_enough_eth'">
+        <h2>{{'ERROR.NO_ETH' | translate}}</h2>
+        <p>{{'ERROR.NO_ENOUGH_ETH_DESCRIPTION' | translate}}</p>
+        <div class="form-group modal-buttons">
+            <button class="btn btn-warning" type="button" (click)="goWallet()">
+                <i class="fa fa-check"></i>
+                <span class="bold">{{'COMMON.GOT_IT' | translate}}</span>
+            </button>
+        </div>
+    </ng-template>
+</div>

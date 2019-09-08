@@ -1,0 +1,162 @@
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="view-header">
+
+                <div class="header-icon">
+                    <i class="pe page-header-icon pe-7s-gift"></i>
+                </div>
+                <div class="header-title title-heading">
+                    <h3 title="{{item.title}}">{{item.title}}</h3>
+
+                </div>
+                <div class="total" *ngIf="reviews && reviews.amount && reviews.rating" (click)="goReviews(chatAddress)">
+                    <div class="summary">
+                        <span class="amount">
+                            {{reviews.amount}}
+                        </span> {{'COMMON.RATING' | translate}}
+                        <span class="rating">
+                            {{reviews.rating | number: '.1-1'}}
+                        </span>
+                    </div>
+                    <div class="stars">
+                        <i class="fa " [class.fa-star-o]="reviews.rating<1" [class.fa-star]="reviews.rating>=1"></i>
+                        <i class="fa " [class.fa-star-o]="reviews.rating<2" [class.fa-star]="reviews.rating>=2"></i>
+                        <i class="fa " [class.fa-star-o]="reviews.rating<3" [class.fa-star]="reviews.rating>=3"></i>
+                        <i class="fa " [class.fa-star-o]="reviews.rating<4" [class.fa-star]="reviews.rating>=4"></i>
+                        <i class="fa " [class.fa-star-o]="reviews.rating<5" [class.fa-star]="reviews.rating>=5"></i>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+
+    <div *ngFor="let order of finalFormattedOrders" class="status status-{{order.eventType}} ">
+        <p class="order-status-inner">
+            <span class="event-type" *ngIf="!myPurchase">
+                {{ (order.currentStatusCode == 1 || order.currentStatusCode == 14 || order.currentStatusCode == 5 ) ? (statuses[order.currentStatusCode]+'_MY'
+                | translate) : (statuses[order.currentStatusCode] | translate) }}
+            </span>
+            <span class="event-type" *ngIf="myPurchase">{{statuses[order.eventType] | translate}}
+            </span>
+            <span *ngIf="order.sender == gs.wallet.address" class="you">{{'VIEW_PENDING_ITEM.YOU' | translate | uppercase}}</span>
+            <span *ngIf="order.sender != gs.wallet.address && myPurchase">{{'VIEW_PENDING_ITEM.SELLER' | translate | uppercase}}</span>
+            <span *ngIf="order.sender != gs.wallet.address && !myPurchase">{{'VIEW_PENDING_ITEM.BUYER' | translate | uppercase}}</span>
+            {{order.private.msg}}
+        </p>
+    </div>
+
+    <div class="status status-{{item.currentStatusCode}} ">
+        <h4 *ngIf="myPurchase">{{item.currentStatus | translate}}</h4>
+        <h4 *ngIf="!myPurchase">
+            {{ (item.currentStatusCode == 1 || item.currentStatusCode == 14) ? (item.currentStatus+'_MY' | translate) : (item.currentStatus|
+            translate) }}
+        </h4>
+    </div>
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-filled panel-c-accent">
+                <div class="panel-heading">{{'VIEW_PENDING_ITEM.QUANTITY_SOLD' | translate}}</div>
+                <div class="panel-body">
+                    {{item?.formatted_orders[0]?.count}}
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h4 style="padding-left: 10px">{{'CHAT.WITH' | translate: translateParams}}
+        </h4>
+        <chat-inner [address]="chatAddress" [goodsAddress]="item.address" [goodsTitle]="item.title" [type]="'buy'" [goInit]="goInit"
+            [embed]="true" *ngIf="!myItem" [sender]="item.sender"> </chat-inner>
+        <chat-inner [address]="chatAddress" [goodsAddress]="item.address" [goodsTitle]="item.title" [type]="'sell'" [goInit]="goInit"
+            [embed]="true" *ngIf="myItem" [sender]="item.sender"> </chat-inner>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel">
+                    <div class="panel-body">
+
+                        <div [hidden]="inProgress" class="form-group" *ngIf="!myPurchase && item.currentStatusCode == 1">
+                            <label for="message">
+                                <span>{{'VIEW_PENDING_ITEM.MESSAGE' | translate}}</span>
+                            </label>
+                            <input id="messages" name="message" class="form-control" [(ngModel)]="message" placeholder="{{ 'COMMON.OPTIONAL' | translate }}">
+                            <br />
+
+                            <div>
+                                <span [hidden]="!item.availableCount || item.availableCount < item.count">
+                                    <button class="btn btn-success" (click)="acceptBuy()">{{'VIEW_PENDING_ITEM.APPROVE' | translate}}</button>
+                                </span>
+                                <button class="btn btn-danger" (click)="rejectBuy()">{{'VIEW_PENDING_ITEM.REJECT' | translate}}</button>
+                            </div>
+                        </div>
+                        <div [hidden]="inProgress" class="form-group" *ngIf="!myPurchase && item.currentStatusCode == 14">
+                            <label for="message">
+                                <span>{{'VIEW_PENDING_ITEM.MESSAGE' | translate}}</span>
+                            </label>
+                            <input id="messages" name="message" class="form-control" [(ngModel)]="message" placeholder="{{ 'COMMON.OPTIONAL' | translate }}">
+                            <br />
+
+                            <div>
+                                <!-- <span [hidden]="!item.availableCount || item.availableCount < item.count"> -->
+                                <button class="btn btn-success" (click)="acceptBuy()">{{'VIEW_PENDING_ITEM.APPROVE' | translate}}</button>
+                                <!-- </span> -->
+                                <button class="btn btn-danger" (click)="rejectBuy()">{{'VIEW_PENDING_ITEM.REJECT' | translate}}</button>
+                            </div>
+                        </div>
+                        <div class=form-group *ngIf="myPurchase && item.currentStatusCode == 2">
+                            <label for="message">
+                                <span>{{'VIEW_PENDING_ITEM.MESSAGE' | translate}}</span>
+                            </label>
+                            <input id="message" name="message" class="form-control" [(ngModel)]="message" placeholder="{{ 'COMMON.OPTIONAL' | translate }}">
+                            <br />
+                            <button type="submit" class="btn btn-success" (click)="finalize()">{{'VIEW_ITEM.FINALIZE' | translate}}</button>
+                            <button type="submit" *ngIf="!disputeDeclined" class="btn btn-danger" (click)="dispute()">{{'VIEW_ITEM.DISPUTE' | translate}}</button>
+
+                        </div>
+                        <div class=form-group *ngIf="!myPurchase && item.currentStatusCode && item.currentStatusCode.toString().startsWith('12')">
+                            <label for="message">
+                                <span>{{'VIEW_PENDING_ITEM.MESSAGE' | translate}}</span>
+                            </label>
+                            <input id="message" name="message" class="form-control" [(ngModel)]="message" placeholder="{{ 'COMMON.OPTIONAL' | translate }}">
+                            <br />
+                            <button type="submit" class="btn btn-success" (click)="finalize(true)">{{'VIEW_ITEM.ACCEPT_DISPUTE' | translate}}</button>
+                            <button type="submit" *ngIf="!disputeDeclined" class="btn btn-danger" (click)="dispute()">{{'VIEW_ITEM.DECLINE_DISPUTE' | translate}}</button>
+
+                        </div>
+                        <div [hidden]="inProgress" class=form-group *ngIf="myPurchase && item.currentStatusCode.toString().startsWith('12')">
+                            <label for="message">
+                                <span>{{'VIEW_PENDING_ITEM.MESSAGE' | translate}}</span>
+                            </label>
+                            <input id="message" name="message" class="form-control" [(ngModel)]="message" placeholder="{{ 'COMMON.OPTIONAL' | translate }}">
+                            <br />
+                            <button type="submit" class="btn btn-success" (click)="finalize()">{{'VIEW_ITEM.FINALIZE' | translate}}</button>
+
+                        </div>
+                        <div class=form-group *ngIf="!myPurchase && item.currentStatusCode == 2 && !finalized">
+
+                            <button type="submit" class="btn btn-success" (click)="writeReview()">{{'VIEW_PENDING_ITEM.WRITE_REVIEW' | translate}}</button>
+                        </div>
+
+                        <div class=form-group *ngIf="(myPurchase && item.currentStatusCode == 11 && !finalized) || (item.currentStatusCode == 11)">
+
+                            <button type="submit" class="btn btn-success" (click)="writeReview()">{{'VIEW_PENDING_ITEM.WRITE_REVIEW' | translate}}</button>
+                        </div>
+                        <div class=form-group *ngIf="!myPurchase && item.currentStatusCode == 11">
+
+                            <button type="submit" class="btn btn-success" (click)="getMoney()">{{'VIEW_PENDING_ITEM.GET_MONEY' | translate}}</button>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

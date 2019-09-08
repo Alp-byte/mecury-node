@@ -1,0 +1,30 @@
+<nav>
+  <ul class="nav luna-nav ng-scope">
+      <li 
+          *ngFor="let _1lvl of navigation" 
+          [class.nav-category]='_1lvl.type=="heading"' 
+          [routerLinkActive]="['active']"
+      >
+          <a *ngIf="(!_1lvl.type || _1lvl.type == 'default') && !_1lvl.tour" (click)="navigate(_1lvl.link)" [routerLinkActive]="['active']" [routerLink]="_1lvl.link" >{{'NAV.'+_1lvl.title | translate}} <span *ngIf="_1lvl.badge" class="badge">{{_1lvl.badge}}</span></a>
+          <a *ngIf="(!_1lvl.type || _1lvl.type == 'default') && _1lvl.tour" (click)="navigate(_1lvl.link)" [routerLinkActive]="['active']" [routerLink]="_1lvl.link"  >{{'NAV.'+_1lvl.title | translate}} <span *ngIf="_1lvl.badge" class="badge">{{_1lvl.badge}}</span></a>
+
+          <ng-template [ngIf]="_1lvl.type == 'heading' && !_1lvl.tour">{{'NAV.'+_1lvl.title | translate}} <span *ngIf="_1lvl.badge" class="badge">{{_1lvl.badge}}</span></ng-template>
+
+          <ng-template [ngIf]="_1lvl.type == 'heading' && _1lvl.tour" >{{'NAV.'+_1lvl.title | translate}} <span *ngIf="_1lvl.badge" class="badge">{{_1lvl.badge}}</span></ng-template>
+
+          <a *ngIf="_1lvl.type == 'parent'" (click)="accordeonToggle(_1lvl)">
+              <span>{{'NAV.'+_1lvl.title | translate}}</span>
+              <span *ngIf="_1lvl.badge" class="badge">{{_1lvl.badge}}</span>
+              <span class="sub-nav-icon"> <i class="stroke-arrow"></i> 
+              </span>
+              
+          </a>
+          <ul *ngIf="_1lvl.children" class="nav nav-second collapse" [class.in]="_1lvl.expanded">
+              <li *ngFor="let _2lvl of _1lvl.children" [routerLinkActive]="['active2']" >
+                  <a (click)="navigate(_2lvl.link)" [routerLinkActive]="['active']" [routerLink]="_2lvl.link">{{'NAV.'+_2lvl.title | translate}} <span *ngIf="_2lvl.badge" class="badge">{{_2lvl.badge}}</span></a>
+                  
+              </li>
+          </ul>
+      </li>
+  </ul>
+</nav>

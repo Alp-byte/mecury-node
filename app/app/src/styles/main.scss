@@ -1,0 +1,142 @@
+.navigation {
+    a {
+        cursor: pointer;
+    }
+}
+
+.dataTables_filter input {
+    width:60%;
+}
+
+.dataTables_filter label {
+    padding-top: 9px;
+}
+
+.navbar {
+  z-index: 20;
+}
+
+/* ------------------------ */
+/* CODE FOR HOVER TOOL-TIPS */
+/* ------------------------ */
+
+[data-hover] {
+  position: relative;
+}
+
+[data-hover]:after {
+  box-sizing: border-box;
+  position: absolute;
+  color: white;
+//   max-width: 500px;
+//   min-width: 100px;
+  width: 400px;
+  padding: 5px 10px;
+  font-size: 12px;
+  content: attr(data-hover);
+  transition: 0.3s ease-out;
+  opacity: 0;
+  text-align: center;
+  border-radius: 3px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+[data-hover]:hover:after {
+  opacity: 1;
+}
+
+/* 
+   Color styles for tooltips 
+   CHANGE HOWEVER YOU WANT
+*/
+
+[data-hover].tt-default:after {
+  background: #212121;
+}
+
+[data-hover].tt-caution:after {
+  background: #F9A825;
+}
+
+[data-hover].tt-info:after {
+  background: #f6a821;
+  font-size: 15px;
+}
+
+[data-hover].tt-danger:after {
+  background: #C62828;
+}
+
+/* Style for tooltop that will slide to bottom */
+
+[data-hover].hover-tt-bottom:after {
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, 0%);
+}
+
+[data-hover].hover-tt-bottom:hover:after {
+  top: calc(100% + 10px);
+}
+
+/* Style for tooltop that will slide to right */
+
+[data-hover].hover-tt-right:after {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+[data-hover].hover-tt-right:hover:after {
+  left: calc(100% + 10px);
+  transform: translate(0%, -50%);
+}
+
+/* Style for tooltop that will slide to left */
+
+[data-hover].hover-tt-left:after {
+  top: 50%;
+  right: 50%;
+  transform: translate(0%, -50%);
+}
+
+[data-hover].hover-tt-left:hover:after {
+  right: calc(100% + 10px);
+  transform: translate(0%, -50%);
+}
+
+/* Style for tooltop that will slide to top */
+
+[data-hover].hover-tt-top:after {
+  bottom: 50%;
+  right: 85%;
+  transform: translate(50%, 0%);
+}
+
+[data-hover].hover-tt-top:hover:after {
+  bottom: calc(100% + 10px);
+}
+
+@import "notifications";
+
+.stop-scrolling {
+  height: 100%;
+  overflow: hidden;
+}
+
+
+.invalidValue {
+  border: 3px solid rgba(255, 0, 0, 0.16) !important
+}
+
+.centeredBackgroundImage {
+  width: 150px;
+  height: 100px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: block;
+  background-position: 50% 50%;
+  width: 300px;
+  height: 300px;
+}

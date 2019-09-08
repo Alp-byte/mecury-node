@@ -1,0 +1,40 @@
+<div class="container-fluid">
+  
+      <div class="row">
+          <div class="col-lg-12">
+              <div class="view-header">
+                  
+                  <div class="header-icon">
+                      <i class="pe page-header-icon pe-7s-news-paper"></i>
+                  </div>
+                  <div class="header-title">
+                      <h3> {{newsItemActive.title}}</h3>
+                      <code>{{newsItemActive.author}}</code>
+                  </div>
+              </div>
+              <hr>
+          </div>
+      </div>
+      <div *ngIf="newsItemActive.thumbnail" class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12">     
+         <img class="img-thumbnail img-fluid image-enlarge image-float" [src]="newsItemActive.thumbnail"/>
+         
+         <div [innerHTML] = "newsItemActive.content"></div>
+
+
+
+          </div>
+      </div>
+      <div *ngIf="!newsItemActive.thumbnail" class="row">
+            <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12" [innerHtml]="newsItemActive.content">
+                    </div>
+                </div>
+      </div>
+      <!-- <br>
+      <br>    
+      <div class="row">
+          <div class="col-lg-12  " innerHtml="{{newsItemActive.content}}">
+          </div>
+      </div> -->
+  </div>

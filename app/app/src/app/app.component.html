@@ -1,0 +1,175 @@
+<base href="/" />
+
+<span class="dev">BETA</span>
+<!-- <span class="mainnet">PRIVATE TESTNET</span> -->
+<span class="mainnet">ROPSTEN & IPFS</span>
+
+
+<!--CSS Spinner-->
+<div class="spinner-wrapper" *ngIf="preloader" id="preloader1">
+    <div class="spinner">
+        <div class="sk-folding-cube">
+            <div class="sk-cube1 sk-cube"></div>
+            <div class="sk-cube2 sk-cube"></div>
+            <div class="sk-cube4 sk-cube"></div>
+            <div class="sk-cube3 sk-cube"></div>
+        </div>
+    </div>
+</div>
+
+
+<div class="pace  pace-inactive" id="progress1">
+    <div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
+        <div class="pace-progress-inner"></div>
+    </div>
+    <div class="pace-activity"></div>
+</div>
+
+<!-- Wrapper-->
+<div class="app-container wrapper ng-scope" [class.nav-toggle]="!menu" id="app-container">
+
+    <!-- Header-->
+    <nav class="navbar navbar-default navbar-fixed-top" id="navbar-outer" >
+        <div class="container-fluid" >
+            <div class="navbar-header">
+                <div id="mobile-menu">
+                    <div class="left-nav-toggle">
+                        <a (click)="menu = !menu">
+                            <i class="stroke-hamburgermenu"></i>
+                        </a>
+                    </div>
+                </div>
+                <a class="navbar-brand main-logo-container" [routerLink]="['/home']">
+                       <img src="assets/images/icon.png" class="main-logo">
+                    </a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <div class="go-back-button">
+                    <a (click)="goBack()" *ngIf="authorized && !hideBackButton">
+                        <i class="fa fa-chevron-circle-left"></i>
+                    </a>
+                </div>
+                <div class="left-nav-toggle">
+                    <a (click)="menu = !menu">
+                        <i class="stroke-hamburgermenu"></i>
+                    </a>
+                </div>
+                <i class="fa fa-search search-icon" tourAnchor="search"></i>
+                <navbar-search ></navbar-search>
+
+                <div ng-show="loggedinStatus.loggedin" class="ng-hide" *ngIf="authorized" id="logout">
+                    <ul class="nav navbar-nav navbar-right">
+
+                        <li class="right-nav-toggle">
+                            <a [routerLink]="['/logout']" href="#">
+                                <div class="header-icon ng-binding">
+                                    <i class="pe page-header-icon pe-7s-unlock text-accent"></i>
+                                    {{'COMMON.LOGOUT' | translate}}
+                                </div>
+                            </a>
+                        </li>
+
+                    </ul>
+                    <div class="balance chat" [class.unread]="unreadMessages" (click)="goTo('chats')" id="chat">
+                        <div class="current_balance"><i class="fa fa-comment-o" aria-hidden="true"></i> <span>{{unreadMessages}}</span></div>
+                        
+                    </div>
+                    <div class="balance" (click)="goTo('wallet')" id="balance">
+                        <div class="current_balance"><i class="fa fa-money" aria-hidden="true" tourAnchor="balance"></i> <span>{{balance | number:'.5'}}</span>ETH</div>
+                        
+                    </div>
+                </div>
+
+                <div ng-hide="loggedinStatus.loggedin" *ngIf="!authorized && !noWallet" id="login-container">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="right-nav-toggle">
+                            <a [routerLink]="['/login']">
+                                <div class="header-icon ng-binding">
+                                    <i class="pe page-header-icon pe-7s-lock text-accent"></i> {{'COMMON.LOGIN' | translate}}
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div ng-hide="loggedinStatus.loggedin" *ngIf="!authorized && noWallet" id="newwallet-container">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="right-nav-toggle">
+                            <a [routerLink]="['/password']">
+                                <div class="header-icon ng-binding">
+                                    <i class="pe page-header-icon pe-7s-lock text-accent"></i> {{'COMMON.NEW_WALLET' | translate}}
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+
+
+            </div>
+        </div>
+    </nav>
+    <!-- End header-->
+
+    <!-- Navigation-->
+    <aside class="navigation" id="sidebar-container">
+        <sidebar></sidebar>
+    </aside>
+    <!-- End navigation-->
+
+
+
+    <!-- Main content-->
+    <!-- ngView:  -->
+
+    <div ng-view="" class="ng-scope" id="main-view-container">
+        <section class="content ng-scope">
+            <router-outlet></router-outlet>
+
+        </section>
+    </div>
+    <!-- End main content-->
+
+</div>
+<notifications id="notifications-container"></notifications>
+<!-- End wrapper-->
+
+<div class="overlay" [class.show]="bigLoader" (click)="cancelPreloader()" id="overlay-preloader"> </div>
+<div class="loader" [class.show]="bigLoader" id="big-preloader">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<div class="preloader-css" *ngIf="loader || cacheLoader" [class.cacheLoaderUp]="cacheLoader" id="small-loader">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+<span class="cacheLoader" *ngIf="cacheLoader" id="small-loader-text"><span *ngFor="let item of loadingItems; let i = index"> {{item}}<ng-template [ngIf]="i!=loadingItems.length-1">,</ng-template></span></span>
+<i class="fa fa-plus refresh newitem" (click)="newItem()" *ngIf="searchComponentUp" id="refresh-button-newitem"></i>
+
+<confirmation></confirmation>
+
+<div id="actions">
+    <div class="action action-{{action.status}}" *ngFor="let action of actions; let i = index" (click)="removeAction(i)"><span class="text truncate">{{action.text}} <b>{{action.item}}</b></span>
+        <span class="status" *ngIf="action.status!='COMMON.RESPONSE_NOT_FOUND'">{{action.status}}</span>
+        <span class="status" *ngIf="action.status=='COMMON.RESPONSE_NOT_FOUND'">PENDING</span></div>
+</div>
+
+<tour-step-template>
+    <div class="overlay">
+        <ng-template let-step="step" >
+
+            <p class="tour-step-content">{{step?.content | translate}}</p>
+            <div class="tour-step-navigation">
+                <button *ngIf="tourService.hasPrev(step)" class="btn btn-sm btn-default" (click)="tourService.prev()">« {{'TOUR.PREV' | translate}}</button>
+                <button *ngIf="tourService.hasNext(step)" class="btn btn-sm btn-default" (click)="tourService.next()">{{'TOUR.NEXT' | translate}} »</button>
+                <button class="btn btn-sm btn-default" (click)="tourService.end()">{{'TOUR.END' | translate}}</button>
+            </div>
+        </ng-template>
+    </div>
+</tour-step-template>

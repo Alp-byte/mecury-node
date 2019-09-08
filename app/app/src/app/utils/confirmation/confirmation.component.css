@@ -1,0 +1,276 @@
+
+button:disabled {
+    opacity: .3;
+}
+
+p {
+    padding: 5px;
+}
+
+.modalPic {
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.modalPic:hover {opacity: 0.7;}
+
+.prelisting {
+    width: 600px !important;
+    height: 300px !important;
+    /* overflow-x: scroll; */
+    overflow-y: scroll;
+}
+
+/* The Modal (background) */
+#overflow {
+    
+    display: block;
+    position: fixed; /* Stay in place */
+    z-index: 10; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.7); /* Black w/ opacity */
+}
+
+.modal {
+    border: 3px solid #f6a821;
+    height: 428px;
+    position: fixed;
+    display: block;
+    margin-top: 100px;
+    margin: auto;
+    text-align: center;
+    padding-top: 13px;
+    background-color: white;
+    border: 3px solid #f6a821;
+    height: 428px;
+    margin-top: 200px;
+    padding-top: 13px;
+    background-color: white;
+    width: 300px;
+    height: 268px;
+}
+
+h2 { 
+    color: #494949;
+    margin-top: 9px;
+}
+
+.modal-buttons {
+    text-align: center;
+    margin-top: 28px;
+}
+
+.cropper-container {
+    width: 340px;
+    float: left;
+    padding: 20px;
+    padding-top: 0px;
+}
+
+.upload-link {
+    padding: 1px;
+    padding-left: 2px;
+    padding-right: 2px;
+    border: 1px solid #f6a821;
+    cursor: pointer;
+}
+
+.upload-link :hover {
+    padding: 1px;
+    padding-left: 2px;
+    padding-right: 2px;
+    border: 1px solid white;
+    color: white;
+    background-color: #f6a821;
+    cursor: pointer;
+}
+
+
+
+/* Modal Content (image) */
+.modal-content {
+    margin: auto;
+    display: block;
+    float: right;
+    width: 80%;
+    max-width: 700px;
+    height: 300px;
+    width: 300px;
+    
+    margin: 20px;
+    margin-top:25px;
+}
+
+/* Caption of Modal Image */
+#caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+}
+
+/* Add Animation */
+.modal-content, #caption {
+    -webkit-animation-name: zoom;
+    -webkit-animation-duration: 0.6s;
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+    from {-webkit-transform:scale(0)}
+    to {-webkit-transform:scale(1)}
+}
+
+@keyframes zoom {
+    from {transform:scale(0)}
+    to {transform:scale(1)}
+}
+
+/* The Close Button */
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+    .modal-content {
+        width: 100%;
+    }
+}
+
+.purchase-pending {
+    color: yellow;
+}
+
+.purchase-complete {
+    color: green;
+}
+
+.purchase-disputed {
+    color: red;
+}
+
+i.status-icon {
+    font-weight: bold;
+    font-size: 19px;
+    padding-left: 5px;
+}
+
+
+
+.input-group .form-control {
+    z-index: 0;
+}
+
+.input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group {
+    z-index: 0;
+}
+
+.modal {
+    border: 3px solid #f6a821;
+    
+    
+    
+    
+    border: 3px solid #f6a821;
+    top: calc(50% - 150px);
+    margin-top: 0px;
+}
+
+.modal-buttons {
+    text-align: center;
+}
+
+.text-alignment{
+    text-align: left;
+}
+.margin-set{
+    margin: 20px;
+}
+.text-alignment-center{
+    text-align: center;
+}
+
+.modal.popGas {
+    border: 0px;
+    border-right: 5px solid #f6a821;
+    border-radius: 100px!important;
+    top: calc(50% - 80px)!important;
+    margin-top: 0px;
+    width: 400px;
+    height: 245px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 21px;
+}
+
+.modal.popGas p {
+    padding-top: 8px;
+}
+
+
+.preloader-css span {
+    position: absolute;
+    display: inline-block;
+    bottom: 0px;
+    left: 0px;
+    width: 9px;
+    height: 5px;
+    background: #fff;
+    -webkit-animation: preloader 1.5s infinite ease-in-out;
+    -moz-animation: preloader 1.5s infinite ease-in-out;
+    animation: preloader 1.5s infinite ease-in-out;
+  }
+  
+  .preloader-css span:nth-child(2) {
+    left: 11px;
+    animation-delay: 0.2s;
+    -webkit-animation-delay: 0.2s;
+    -moz-animation-delay: 0.2s;
+  }
+  
+  .preloader-css span:nth-child(3) {
+    left: 22px;
+    animation-delay: 0.4;
+    -webkit-animation-delay: 0.4s;
+    -moz-animation-delay: 0.4s;
+  }
+  
+  .preloader-css span:nth-child(4) {
+    left: 33px;
+    animation-delay: 0.6s;
+    -webkit-animation-delay: 0.6s;
+    -moz-animation-delay: 0.6s;
+  }
+  
+  .preloader-css span:nth-child(5) {
+    left: 44px;
+    animation-delay: 0.6s;
+    -webkit-animation-delay: 0.8s;
+    -moz-animation-delay: 0.8s;
+  }

@@ -1,0 +1,30 @@
+<div class="container-fluid">
+  
+      <div class="row">
+          <div class="col-lg-12">
+              <div class="view-header">
+                
+                  <div class="header-icon">
+                      <i class="pe page-header-icon fa fa-tag"></i>
+                  </div>
+                  <div class="header-title" *ngIf="!cat.length">
+                      <h3>{{'SEARCH_BY_CATEGORY.TITLE' | translate}}</h3>
+                      <small>{{'SEARCH_BY_CATEGORY.SUBTITLE' | translate}}</small>
+                  </div>
+                  <div class="header-title" *ngIf="cat.length">
+                      <h3>{{'CATEGORIES.'+(!cat || cat == 'undefined' ? 'undefined' : cat) | translate}}</h3>
+                  </div>
+              </div>
+              <hr>
+          </div>
+      </div>
+  
+  
+      <div class="row">
+          <div class="col-md-12">
+              <div class="panel panel">
+                  <item-list [items]="items" [update]="update"></item-list>
+              </div>
+          </div>
+      </div>
+  </div>

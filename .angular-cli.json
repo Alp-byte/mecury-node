@@ -1,0 +1,76 @@
+{
+    "$schema": "./app/app/node_modules/@angular/cli/lib/config/schema.json",
+    "project": {
+      "name": "app-v2"
+    },
+    "apps": [
+      {
+        "root": "app/app/src",
+        "outDir": "app/app/dist",
+        "assets": [
+          "app/app/assets",
+          "app/app/favicon.ico"
+        ],
+        "index": "app/app/index.html",
+        "main": "app/app/main.ts",
+        "polyfills": "app/app/polyfills.ts",
+        "test": "app/app/test.ts",
+        "tsconfig": "app/app/tsconfig.app.json",
+        "testTsconfig": "app/app/tsconfig.spec.json",
+        "prefix": "app",
+        "styles": [
+          "app/app/vendor/fontawesome/css/font-awesome.css",
+          "app/app/vendor/animate.css/animate.css",
+          "app/app/vendor/bootstrap/css/bootstrap.css",
+          "app/app/vendor/datatables/datatables.min.css",
+          "app/app/styles/pe-icons/pe-icon-7-stroke.css",
+          "app/app/styles/pe-icons/helper.css",
+          "app/app/styles/stroke-icons/style.css",
+          "app/app/styles/style.css",
+          "app/app/styles/style-light.css",
+          "app/app/styles/jquery.fancybox-plus.css",
+          "app/app/styles/main.scss",
+          "app/app/node_modules/froala-editor/css/froala_editor.pkgd.min.css",
+          "app/app/node_modules/froala-editor/css/froala_style.min.css"
+        ],
+        "scripts": [
+          "app/app/../node_modules/jquery/dist/jquery.min.js",
+          "app/app/../node_modules/froala-editor/js/froala_editor.pkgd.min.js"
+        ],
+        "environmentSource": "app/app/environments/environment.ts",
+        "environments": {
+          "dev": "app/app/environments/environment.ts",
+          "prod": "app/app/environments/environment.prod.ts"
+        }
+      }
+    ],
+    "e2e": {
+      "protractor": {
+        "config": "app/app/protractor.conf.js"
+      }
+    },
+    "lint": [
+      {
+        "project": "app/app/tsconfig.app.json",
+        "exclude": "**/node_modules/**"
+      },
+      {
+        "project": "app/app/tsconfig.spec.json",
+        "exclude": "**/node_modules/**"
+      },
+      {
+        "project": "app/app/e2e/tsconfig.e2e.json",
+        "exclude": "**/node_modules/**"
+      }
+    ],
+    "test": {
+      "karma": {
+        "config": "app/app/karma.conf.js"
+      }
+    },
+    "defaults": {
+      "styleExt": "css",
+      "component": {}
+    }
+  }
+  

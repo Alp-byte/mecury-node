@@ -1,0 +1,7 @@
+.truncate{
+  white-space: normal;
+  text-overflow: ellipsis;
+  display: block;
+  overflow: hidden;
+  width: 200px;
+}

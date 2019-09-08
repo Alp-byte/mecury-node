@@ -1,0 +1,60 @@
+{
+  "name": "bitboost-marketplace",
+  "productName": "marketplace",
+  "releaseName": "marketplace",
+  "version": "0.6.1",
+  "main": "index.js",
+  "email": "sergeev.maxs@gmail.com",
+  "description": "Ecommerse redefined",
+  "scripts": {
+    "build": "electron-builder",
+    "mac": "electron-builder --mac",
+    "win": "electron-builder --win",
+    "linux": "electron-builder --linux deb"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Bitboost/bitboost-app-source.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bitboost/bitboost-app-source.git/issues"
+  },
+  "homepage": "https://github.com/Bitboost/bitboost-app-source.git#readme",
+  "devDependencies": {
+    "electron": "^3.0.4",
+    "electron-builder": "^20.28.4",
+    "electron-packager": "^12.1.2",
+    "electron-webpack": "^2.3.1",
+    "electron-winstaller": "^2.6.3"
+  },
+  "build": {
+    "appId": "bitboost.theapp",
+    "mac": {
+      "icon": "build/icon.icns"
+    },
+    "linux": {
+      "category": "Office",
+      "target": "deb"
+    },
+    "win": {
+      "icon": "./build/icon.ico"
+    },
+    "directories": {
+      "buildResources": "app"
+    },
+    "files": [
+      "**/*",
+      "app/index.bundle.js"
+    ],
+    "extraMetadata": {
+      "main": "index.js"
+    },
+    "npmArgs": []
+  },
+  "postinstall": "electron-builder install-app-deps",
+  "dependencies": {
+    "npm": "^6.4.1"
+  }
+}

@@ -1,0 +1,82 @@
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="view-header">
+
+                <div class="header-icon">
+                    <i class="pe page-header-icon pe-7s-gleam"></i>
+                </div>
+                <div class="header-title">
+                    <h3>{{'ACTIVE.TITLE' | translate}}</h3>
+                    <small>{{'ACTIVE.SUBTITLE' | translate}}</small>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel">
+                <div class="panel-body">
+
+
+                    <div class="table-responsive">
+                        <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                            <div class="row">
+                                <div class="col-sm-6"></div>
+                                <div class="col-sm-6">
+                                    <div class="dataTables_filter">
+                                        <label>Search:
+                                            <input type="search" class="form-control input-sm" [(ngModel)]="filter.search" (ngModelChange)="searchChanged()">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table class="table table-striped table-hover ng-isolate-scope dataTable no-footer" style="display: table;">
+                                        <thead>
+                                            <tr role="row">
+
+                                                <th class="ng-scope" [class.sorting]="orderBy.name !== 'title'" [class.sorting_asc]="orderBy.name == 'title' && !orderBy.desc"
+                                                    [class.sorting_desc]="orderBy.name == 'title' && orderBy.desc" (click)="sort('title', $event)"
+                                                    [style.width]="'40%'">{{'COMMON.TITLE' | translate}}</th>
+                                                <th class="ng-scope" [class.sorting]="orderBy.name !== 'endTimestamp'" [class.sorting_asc]="orderBy.name == 'endTimestamp' && !orderBy.desc"
+                                                    [class.sorting_desc]="orderBy.name == 'endTimestamp' && orderBy.desc" (click)="sort('endTimestamp', $event)"
+                                                    [style.width]="'20%'">{{'COMMON.LISTING_ENDS' | translate}}</th>
+                                                <th class="ng-scope" [style.width]="'10%'">{{'COMMON.AVAILABLE_COUNT' | translate}}</th>
+                                                <th class="ng-scope" [style.width]="'10%'">{{'COMMON.SOLD_COUNT' | translate}}</th>
+                                                <th class="ng-scope" [class.sorting]="orderBy.name !== 'priceEth'" [class.sorting_asc]="orderBy.name == 'priceEth' && !orderBy.desc"
+                                                    [class.sorting_desc]="orderBy.name == 'priceEth' && orderBy.desc" (click)="sort('priceEth', $event)"
+                                                    [style.width]="'20%'">{{'COMMON.PRICE' | translate}}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <td colspan=5 class="noitems" *ngIf="!items.length">
+                                                <span>{{'COMMON.NONE' | translate}}</span>
+                                            </td>
+                                            <ng-template ngFor let-item [ngForOf]="items" let-i="index">
+                                                <tr class="ng-scope odd" style="cursor: pointer" *ngIf="(item.active) && (item.status == 1)" (click)="go(item)">
+                                                    <td class="sorting_1 truncate" title="{{item.title}}">{{item.title}}</td>
+                                                    <td>
+                                                        <span [class.green]="calcExpired(item.endTimestamp * 1000)==2" [class.yellow]="calcExpired(item.endTimestamp * 1000)==1"
+                                                            [class.red]="calcExpired(item.endTimestamp * 1000)==0">{{item.endTimestamp * 1000 | date}}</span>
+                                                    </td>
+                                                    <td>{{item.availableCount}}</td>
+                                                    <td>{{item.saleCount - item.availableCount}}</td>
+                                                    <td>{{item.priceEth | number:'.5'}}</td>
+                                                </tr>
+                                            </ng-template>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

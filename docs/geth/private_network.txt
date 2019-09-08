@@ -1,0 +1,23 @@
+- How to init new node?
+
+A: geth --datadir "c:\eth_db" --port 30303 --networkid 15 --mine --nodiscover --maxpeers 10 --rpc --rpccorsdomain "*" --rpcport 8546 --ws --wsport 8545 --rpcaddr "0.0.0.0" init genesis.json
+A: modify static-nodes.json and put it into <datadir> folder.
+
+- How to add default peers?
+
+A: use static-nodes.json file. Add default peers in enode format.
+
+- How to create genesis file?
+
+A: check genesis.json file here.
+
+- How to start a node?
+
+A: geth --datadir "c:\eth_db" --port 30303 --networkid 15 --mine --nodiscover --maxpeers 10 --rpc --rpccorsdomain "*" --rpcport 8546 --ws --wsport 8545 --rpcaddr "0.0.0.0"
+A: /root/geth172/geth172 --datadir "/mnt/private-blockchain/database" --port 30303 --networkid 15 --mine --nodiscover --maxpeers 10 --rpc --rpcaddr "0.0.0.0" --rpccorsdomain "*" --rpcport 8546 --ws --wsport 8545
+
+- Nodes?
+
+A:
+Digital Ocean geth4: enode://89f287eea55070c94a23dddcba78a309ea5f15e2f8199dce293b9a3375a8f4000cf70475b283d3ee2302d87516bab14298570559d86f01c60e72b802fa30b446@46.101.204.158:30303
+

@@ -1,0 +1,21 @@
+For front-end:
+
+- run "npm install -g --production windows-build-tools" to install python and tools
+- run "npm install -g node-gyp" to install node-gyp
+- run "npm install -g webpack" to install webpack
+- run "npm install -g @angular/cli" to install Angular build tools
+- run "npm install" from the mercury-node folder
+- run "npm install" from the mercury-node/app folder
+- run "npm install" from the mercury-node/app/app folder
+- build the UI: "npm run-script build" from the mercury-node/app/app folder
+- rebuild packages to support electron: run "node_modules\.bin\electron-rebuild -p -f" from the mercury-node/app folder
+
+For back-end only (debugging purposes):
+
+- run "npm install express" from mercury-node/app folder
+- install VS Code for debugging
+- install Postman for issuing requests
+
+Workaround for unicode symbols in path (Windows):
+
+add "--devdir="C:\nodejs\nodegyp"" to npm install command

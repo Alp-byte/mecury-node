@@ -1,0 +1,18 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left"> {{ 'PREFERENCES.CHOOSE_COUNTRY' | translate }} </h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p> {{ 'PREFERENCES.COUNTRY_POPUP_MESSAGE' | translate }} </p>
+  <div>
+    <select class="form-control" name="countryname" (click)="chooseCountry($event)">
+      <option [value]="c.name" *ngFor="let c of countryList"> {{c.name}}</option>
+    </select>
+  </div>
+  <p *ngIf="!isCountrySelected"> {{ 'PREFERENCES.COUNTRY_VALIDATION_MESSAGE' | translate }} </p>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" (click)="hide()">Ok</button>
+</div>

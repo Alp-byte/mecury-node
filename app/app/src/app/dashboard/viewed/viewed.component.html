@@ -1,0 +1,17 @@
+<div class="viewed">
+  <h2>Recently viewed</h2>
+  <div class="item" *ngFor="let item of viewed" [routerLink]="'/buy/single-item/'+item.address">
+      <div class="image-container">
+          
+          <div class="centeredBackgroundImage img-responsive item-pic" *ngIf="item?.img?.length!=0 && item?.img[0]!=''" [ngStyle]="{'background-image': 'url(' + item.img[0] + ')'}"
+          style="margin: auto; 
+          width: 100%;
+          height: 240px;
+          background-color: #24262d;
+          " ></div>
+          <img src="assets/images/noimage.jpeg" *ngIf="item?.img?.length==0 || item?.img[0]==''"/>
+      </div>
+      <div class="name" title="{{item.title}}">{{item.title}}</div>
+      <div class="price">{{item.price}}</div>
+  </div>
+</div>

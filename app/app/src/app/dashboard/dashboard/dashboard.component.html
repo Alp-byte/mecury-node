@@ -1,0 +1,206 @@
+<div class="container-fluid" id="title-header-container">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="view-header">
+
+                <div class="header-icon">
+                    <i class="pe page-header-icon fa fa-tachometer"></i>
+                </div>
+                <div class="header-title">
+                    <h3>{{'NOTIFICATIONS.TITLE' | translate}}</h3>
+                    <small>{{'NOTIFICATIONS.SUBTITLE' | translate}}</small>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+    <div class="row">
+        <button (click)="getOrders()">GET ORDERS</button>
+        <button (click)="getPurchases()">GET PURCHASES</button>
+    </div>
+
+
+    <div class="panel panel-filled panel-c-accent" *ngIf="announce" id="announce-container">
+        <div class="panel-heading">
+            <h2>{{announce.title}}</h2>
+        </div>
+        <div class="panel-body">
+
+            <div class="bs-example">
+                <blockquote>
+                    <p>
+                        {{announce.description}}
+                    </p>
+                    <button class="btn btn-next btn-warning" *ngIf="announce.link" type="button" (click)="go(announce.link)" tourAnchor="beta">
+                        {{'NOTIFICATIONS.DETAILS_BUTTON' | translate}}
+                        <i class="fa fa-arrow-right"></i>
+                    </button>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+    <hr/>
+    <div class="row" id="news-container">
+        <div class="col-lg-12">
+            <app-news-list [short]="true"></app-news-list>
+        </div>
+    </div>
+    <hr/>
+    <div class="row notifications-panel">
+        <div class="col-sm-12 col-lg-6 col-md-6" id="notifications-container">
+            <h2>{{'NOTIFICATIONS.NOTIFICATIONS' | translate}}</h2>
+            <table class="tableBodyScroll table table-striped table-hover ng-isolate-scope dataTable no-footer" style="display: table;">
+                <thead>
+                    <tr role="row">
+
+                        <th class="ng-scope" [class.sorting]="orderBy.name !== 'date'" [class.sorting_asc]="orderBy.name == 'date' && !orderBy.desc"
+                            [class.sorting_desc]="orderBy.name == 'date' && orderBy.desc" (click)="sort('date', $event, 'not')"
+                            [style.width]="'20%'">{{'COMMON.DATE' | translate}}</th>
+
+                        <th class="ng-scope" [class.sorting]="orderBy.name !== 'title'" [class.sorting_asc]="orderBy.name == 'title' && !orderBy.desc"
+                            [class.sorting_desc]="orderBy.name == 'title' && orderBy.desc" (click)="sort('title', $event, 'not')"
+                            [style.width]="'20%'">{{'COMMON.TITLE' | translate}}</th>
+
+                        <th class="ng-scope" [class.sorting]="orderBy.name !== 'type'" [class.sorting_asc]="orderBy.name == 'type' && !orderBy.desc"
+                            [class.sorting_desc]="orderBy.name == 'type' && orderBy.desc" (click)="sort('type', $event, 'not')"
+                            [style.width]="'30%'">{{'COMMON.TYPE' | translate}}</th>
+
+
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <ng-template ngFor let-item [ngForOf]="notifications" let-i="index">
+
+                        <tr class="ng-scope odd" (click)="notificationNav(item.type, item.address)">
+                            <td>{{item.date | date}}</td>
+                            <td class="truncate" title="{{item.title}}">{{item.title}}</td>
+                            <td>{{((item.type == 1 || item.type == 14) ? order_status[item.type]+'_MY' : order_status[item.type])
+                                | translate}}</td>
+                            <!-- <td *ngIf="item.type == 1 || item.type == 14">{{order_status[item.type]+'_MY' | translate}}</td>
+                            <td *ngIf="item.type != 1">{{order_status[item.type] | translate}}</td>-->
+                        </tr>
+                    </ng-template>
+
+                </tbody>
+
+
+            </table>
+            <div class="panel panel-filled" [hidden]="notifications.length">
+                <div class="panel-body">
+                    <div class="row">
+                        <span *ngIf="timer!=''">{{'NOTIFICATIONS.NONE' | translate}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" id="bookmarks-container">
+
+            <h3> {{'BOOKMARKS_ITEMS.TITLE' | translate}}</h3>
+
+
+            <div class="table-responsive">
+                <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <table class="table table-striped table-hover ng-isolate-scope dataTable no-footer" style="display: table;">
+                                <thead>
+                                    <tr role="row">
+
+                                        <th class="ng-scope" [style.width]="'20%'">{{'VIEW_ALL.SORT' | translate}}</th>
+                                        <th class="ng-scope" [class.sorting]="orderBy.name !== 'title'" [class.sorting_asc]="orderBy.name == 'title' && !orderBy.desc"
+                                            [class.sorting_desc]="orderBy.name == 'title' && orderBy.desc" (click)="sort('title', $event)"
+                                            [style.width]="'25%'">{{'COMMON.TITLE' | translate}}</th>
+                                        <th class="ng-scope" [class.sorting]="orderBy.name !== 'cat.0'" [class.sorting_asc]="orderBy.name == 'cat.0' && !orderBy.desc"
+                                            [class.sorting_desc]="orderBy.name == 'cat.0' && orderBy.desc" (click)="sort('cat.0', $event)"
+                                            [style.width]="'30%'">{{'COMMON.CATEGORY' | translate}}</th>
+                                        <th class="ng-scope" [class.sorting]="orderBy.name !== 'priceEth'" [class.sorting_asc]="orderBy.name == 'priceEth' && !orderBy.desc"
+                                            [class.sorting_desc]="orderBy.name == 'priceEth' && orderBy.desc" (click)="sort('priceEth', $event)"
+                                            [style.width]="'25%'">{{'COMMON.PRICE' | translate}}</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="dataTables_filter">
+                                <label>Search:
+                                    <input type="search" class="form-control input-sm" [(ngModel)]="filter.search" (ngModelChange)="searchChanged()">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="panel panel-filled" [hidden]="!recall">
+                <div class="panel-body">
+                    <div class="row">
+                        <span *ngIf="timer!=''">{{'BOOKMARKS_ITEMS.NONE' | translate}}</span>
+                    </div>
+                </div>
+            </div>
+
+
+            <ng-template ngFor let-item [ngForOf]="items" let-i="index">
+                <div class="panel panel-filled" *ngIf="item.active" (click)="go('/buy/single-item/'+item.address, item.address)">
+                    <div class="panel-body">
+
+                        <div class="row">
+                            <div class="col-md-3">
+
+                                <img *ngIf="item.img && item?.img?.length>0 && item?.img[0]!=''" class="img-responsive" src="{{item.img[0]}}" alt="Image"
+                                    style="border: 5px solid rgba(237, 237, 237, 0.6);" />
+
+                            </div>
+                            <div class="col-md-9">
+                                <h4 class="m-t-xs m-b-none bookmark-title" title="{{item.title}}" style="cursor: pointer">{{item.title}}</h4>
+                                <p class="wrap make-ellipsis bookmark-desc" style="cursor: pointer" title="{{item.description}}">{{ item.description }}</p>
+                                <hr />
+
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div> {{'CATEGORIES.'+item?.cat[0] | translate}}</div>
+
+                                        <div *ngIf="item?.tags?.length>1">
+                                            <span *ngFor="let tag of item.tags; let i = index">{{tag}}
+                                                <ng-template [ngIf]="i!=item.tags.length-1"> ,</ng-template>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div>
+                                            <code>{{item.priceEth | number: '.5'}} {{item.currency}}</code>
+                                        </div>
+                                        <div>{{item.availableCount}} available</div>
+                                    </div>
+                                </div>
+
+                                <div class="row" align="right">
+                                    <form style="padding-right: 15px">
+                                        <a [routerLink]="['/buy/single-item/'+item.address]" class="btn btn-warning">View Item</a>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+
+    <hr/>
+    <viewed></viewed>
+</div>

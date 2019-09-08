@@ -1,0 +1,36 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="view-header">
+        <div class="pull-right text-right" style="line-height: 14px">
+         
+        </div>
+        <div class="header-icon">
+          <i class="pe page-header-icon pe-7s-key"></i>
+        </div>
+        <div class="header-title">
+          <h3>{{'AUTHPLACEHOLDER.TITLE' | translate}}</h3>
+          <small>{{'AUTHPLACEHOLDER.SUBTITLE' | translate}}</small>
+        </div>
+      </div>
+      <hr>
+    </div>
+  </div>
+
+  <div ng-hide="loggedinStatus.loggedin">
+    <div class="row">
+      <div class="col-lg-12">
+
+        <div class="panel panel-filled panel-c-danger">
+          <div class="panel-heading">
+            <span>{{'COMMON.LOGIN_REQUIRED' | translate}}</span>
+          </div>
+          <div class="panel-body">
+            <span>{{'COMMON.LOGIN_REQUIRED_TEXT' | translate}} <a [routerLink]="['/login']">{{'COMMON.LOGIN' | translate}}</a></span>
+          </div>
+        </div>
+      </div>
+    </div> 
+  </div>
+  
+</div>

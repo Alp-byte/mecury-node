@@ -1,0 +1,40 @@
+.news img {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.news .title {
+    font-size: 15px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.news {
+    width: 20%;
+    float: left;
+    padding: 10px;
+
+    &:hover {
+        background-color: #4b4d54;
+        cursor: pointer;
+    }
+}
+
+.transaction-TRANSACTION_ERROR {
+    background-color: rgba(172, 1, 1, 0.43) !important;
+}
+
+.transaction-TRANSACTION_NEUTRAL {
+    background-color: rgba(172, 151, 1, 0.43) !important;
+}
+
+.truncate{
+  white-space: normal;
+  text-overflow: ellipsis;
+  display: block;
+  overflow: hidden;
+  width: 257px;
+  margin: 0 -10px 0 0;
+}
+

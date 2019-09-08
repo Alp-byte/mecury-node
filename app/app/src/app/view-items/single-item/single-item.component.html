@@ -1,0 +1,235 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="view-header">
+
+            <div class="header-icon">
+                <i class="pe page-header-icon pe-7s-gift"></i>
+            </div>
+            <div class="header-title">
+              <h3><span class="title-span" title="{{item.title}}">{{item.title}}</span>
+                    <i class="bookmark-icon fa" [class.fa-star-o]="!item.bookmarked" [class.fa-star]="item.bookmarked" [class.bounce]="item.bookmarked && !load"
+                        (click)="bookmark()" aria-hidden="true" *ngIf="!myItem"></i>
+              </h3>
+                <!-- <code>{{item.priceEth | number: '.5'}} ETH</code> -->
+                <price [price]="item.priceEth" [currency]="'ETH'"></price>
+            </div>
+            <div class="total" *ngIf="reviews && reviews.amount && reviews.rating" (click)="goReviews(item.sender)">
+                <div class="summary">
+                    <span class="amount">
+                        {{reviews.amount}}
+                    </span> {{'COMMON.RATING' | translate}}
+                    <span class="rating">
+                        {{reviews.rating | number: '.1-1'}}
+                    </span>
+                </div>
+                <div class="stars">
+                    <i class="fa " [class.fa-star-o]="reviews.rating<1" [class.fa-star]="reviews.rating>=1"></i>
+                    <i class="fa " [class.fa-star-o]="reviews.rating<2" [class.fa-star]="reviews.rating>=2"></i>
+                    <i class="fa " [class.fa-star-o]="reviews.rating<3" [class.fa-star]="reviews.rating>=3"></i>
+                    <i class="fa " [class.fa-star-o]="reviews.rating<4" [class.fa-star]="reviews.rating>=4"></i>
+                    <i class="fa " [class.fa-star-o]="reviews.rating<5" [class.fa-star]="reviews.rating>=5"></i>
+                </div>
+            </div>
+        </div>
+        <hr>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div [class.col-md-8]="item.img && item.img.length" [class.col-md-12]="!item.img || (!item.img.length)">
+            <div class="col-md-5 fcolumn">
+                <div class="characteristics category"><span class="name"><i class="fa fa-tasks"></i> {{'COMMON.CATEGORY' | translate}}: <a  (click)="goCategory(category)">{{(category ? 'CATEGORIES.'+category : 'CATEGORIES.undefined') | translate}}</a></span>                    <span></span></div>
+                <div class="characteristics saleCount"><span class="name"><i class="fa fa-cubes"></i>{{'VIEW_ITEM.NUM_AVAILABLE' | translate}}: {{item.availableCount}}</span>                    </div>
+                <div class="characteristics tags" *ngIf="item.tags && item.tags.length">
+
+                    <span class="name" *ngIf="item?.tags?.length>1"> <i class="fa fa-tags"></i>{{'COMMON.TAGS' | translate}}</span>
+                    <span class="name" *ngIf="item?.tags?.length==1"> <i class="fa fa-tags"></i>{{'COMMON.TAG' | translate}}</span>
+                    <span *ngFor="let tag of item.tags; let i = index" class="tag"><a (click)="goTag(tag)">{{tag}}</a><span *ngIf="i!=item.tags.length-1">, </span></span>
+                </div>
+                <div class="characteristics price"><span class="name"><i class="fa fa-money"></i> {{'COMMON.PRICE' | translate}}: <code>{{item.priceEth | number: '.5'}} ETH</code></span></div>
+            </div>
+            <div class="col-md-7">
+                <div class="characteristics listed">
+                    <span class="name"> <i class="fa fa-gavel"></i> {{'VIEW_ITEM.LISTING_ENDS' | translate}} </span> {{item.timestamp
+                    | date}} -
+                    <span [class.green]="ends==2" [class.yellow]="ends==1" [class.red]="ends==0">{{item.endTimestamp | date}}</span>
+                </div>
+
+                .
+
+            </div>
+
+            <div class="col-md-12" style="padding-left: 0px;">
+<div class="characteristics seller">
+
+    <span class="name"><i class="fa fa-user"></i>{{'VIEW_ITEM.SELLER_ID' | translate}}</span>
+    
+    <sender [address]="item.sender" [goInit]="goInit"></sender>
+</div>
+
+
+<div class="characteristics escrow">
+
+    <span class="name"><i class="fa fa-umbrella"></i>{{'VIEW_ITEM.ESCROW_PROVIDER' | translate}}</span>
+    <sender [address]="item.escrow" [goInit]="goInit"></sender>
+</div>
+</div>
+<div class="panel panel-filled panel-c-accent">
+    <div class="panel-heading">{{'VIEW_ITEM.DESCRIPTION' | translate}}</div>
+    <div class="panel-body">
+        {{item.description}} <br />
+    </div>
+</div>
+
+<div class="form-group col-md-8" *ngIf="myItem">
+  <button type="submit"  class="btn btn-success cancel" (click)="cancelItem()">{{'VIEW_ITEM.CANCEL' | translate}}</button>
+</div>
+<div class="form-group col-md-8" *ngIf="!myItem">
+    <label for="message_to_seller">
+                  <span class="ng-scope">{{'VIEW_ITEM.MESSAGE' | translate}}</span>
+              </label>
+    <input id="message_to_seller" name="message_to_seller" [(ngModel)]="message" type="text" class="form-control ng-pristine ng-valid ng-empty ng-touched"
+        ng-model="item.message" placeholder="optional">
+</div>
+<form class="ng-pristine ng-valid col-md-4">
+    <div class="input-group ng-scope ng-not-empty ng-dirty ng-valid ng-valid-parse" style="z-index: 1" *ngIf="!purchase && !myItem && item.availableCount > 1">
+<span class="input-group-btn">
+                          <button type="button" class="btn btn-default btn-counter"  (click)="decQuantity()">
+                              <i class="fa fa-minus"></i>
+                          </button>
+                      </span>
+<input type="text" class="form-control spinner-box ng-pristine ng-untouched ng-valid ng-not-empty" [(ngModel)]="amount" (ngModelChange)="checkAmount()"
+    [ngModelOptions]="{standalone: true}" type="number" min="0">
+<span class="input-group-btn">
+                          <button type="button" class="btn btn-default btn-counter" (click)="incQuantity()">
+                              <i class="fa fa-plus"></i>
+                          </button>
+                      </span>
+</div>
+<button type="submit" (click)="buy($event)" class="btn btn-success ng-binding" *ngIf="!purchase && !myItem" id="buy-button"
+    [disabled]="wrongAmount || notEnoughFunds">{{'VIEW_ITEM.BUY_BUTTON' | translate}}: {{shownPrice | number: '.5'}} ETH</button>
+
+<span class="red" *ngIf="shipError && !shippingAddress">{{'VIEW_ITEM.SHIP_ERROR' | translate}}</span>
+<button type="submit" class="btn btn-success" (click)="finalize()" *ngIf="purchase && !pending">{{'VIEW_ITEM.FINALIZE' | translate}}</button>
+<button type="submit" class="btn btn-danger" (click)="gs.go('/buy/dispute/'+item.address)" *ngIf="purchase && !dispute && !pending">{{'VIEW_ITEM.DISPUTE' | translate}}</button>
+<button type="submit" class="btn btn-warning" (click)="gs.go('/buy/dispute/'+item.addres)" *ngIf="purchase && dispute && !pending">{{'VIEW_ITEM.GO_TO_DISPUTE' | translate}}</button>
+<button type="submit" class="btn btn-danger" (click)="withdraw()" *ngIf="purchase && pending">{{'VIEW_ITEM.WITHDRAW_OFFER' | translate}}</button>
+
+</form>
+
+
+
+</div>
+
+<div class="col-md-4" *ngIf="item.img && item.img.length">
+    <div class="pics">
+        <!-- <img *ngFor="let img of item.img; let i = index" [hidden]="i != chosenPic" src="{{img}}" id="pic-{{i}}" class="modalPic"
+                    (click)="openPic(chosenPic)" style="width: 300px; height: 300px;" /> -->
+        <div class="main-pics" *ngIf="item.img && item.img.length">
+            <div *ngFor="let img of item.img; let i = index" class="modalPic" style="
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    display: block;
+                    background-position: 50% 50%;
+                    width: 300px;
+                    height: 300px;
+                    /* margin-top: 30px; */
+                    /* margin-right: 26px; */
+                " [ngStyle]="{'background-image': 'url(' + img + ')'}" [attr.imageSrc]="img" [class.hidden]="i != chosenPic" id="pic-{{i}}"
+(click)="openPic(chosenPic)"></div>
+</div>
+<div class="thumbs" *ngIf="item.img && item.img.length>1">
+    <img *ngFor="let img of item.img; let i = index" src="{{img}}" (click)="choosePic(i)" class="thumbPic">
+</div>
+</div>
+</div>
+
+
+</div>
+</div>
+
+
+
+<div class="row" *ngIf="purchase">
+    <div class="col-lg-12">
+        <div class="panel panel-filled" [class.collapsed]="!visual.offer">
+            <div class="panel-heading" (click)="visual.offer = !visual.offer">
+                <div class="panel-tools">
+                    <a class="panel-toggle">
+                        <i class="fa fa-chevron-up">
+                              </i>
+                    </a>
+                </div>
+                <span>{{'VIEW_ITEM.OFFER_DETAILS' | translate}}
+                          <i class="fa fa-thumbs-o-up purchase-complete status-icon" *ngIf="!dispute && !pending"></i>
+                          <i class="fa fa-question-circle-o purchase-disputed status-icon" *ngIf="dispute"></i>
+                          <i class="fa fa-clock-o purchase-pending status-icon" *ngIf="pending"></i>
+                      </span>
+            </div>
+            <div class="panel-body">
+                <i class="fa fa-clock-o"></i> <span>{{'VIEW_ITEM.OFFER_DATE' | translate}}</span>: {{item?.offer?.date |
+                date}} <br />
+            </div>
+            <div class="panel-body">
+                <i class="fa fa-cubes"></i> <span>{{'VIEW_ITEM.OFFER_AMOUNT' | translate}}</span>: {{item?.offer?.amount}}
+                <br />
+            </div>
+            <div class="panel-body">
+                <i class="fa fa-money"></i> <span>{{'VIEW_ITEM.OFFER_PRICE' | translate}}</span>: {{item?.offer?.price}}
+                <br />
+            </div>
+            <div class="panel-body">
+                <i class="fa fa-umbrella"></i> <span>{{'VIEW_ITEM.OFFER_STATUS' | translate}}</span>:
+                <span class="purchase-disputed" *ngIf="dispute">{{'VIEW_ITEM.ORDER_DISPUTED' | translate}}</span>
+                <span class="purchase-pending" *ngIf="pending">{{'VIEW_ITEM.ORDER_PENDING' | translate}}</span>
+                <span class="purchase-complete" *ngIf="!dispute && !pending">{{'VIEW_ITEM.ORDER_COMPLETE' | translate}}</span>
+                <br />
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row" [class.error]="shipError && !shippingAddress" *ngIf="!myItem">
+    <div class="col-lg-12 singleitem-autocomplete">
+        <h4 *ngIf="hasShipping">{{'VIEW_ITEM.SHIPPING_OPTIONS' | translate}}</h4>
+        <div class="shipping" [class.chosen]="chosenShipping==i" *ngFor="let ship of item.ship; let i = index" (click)="chosenShipping = i"
+            [hidden]="ship.method==''">
+            <span>{{ship.method}}</span>
+            <code>{{ship.cost | number: '.5'}} ETH</code>
+
+            
+            <input auto-complete class="autocomplete-input" [hidden]="i!=chosenShipping" [(ngModel)]="shippingAddress" [source]="savedAddresses" />
+        </div>
+    </div>
+</div>
+
+<div class="row"  *ngIf="myItem">
+    <div class="col-lg-12 singleitem-autocomplete">
+        <h4 *ngIf="hasShipping">{{'VIEW_ITEM.SHIPPING_OPTIONS' | translate}}</h4>
+        <div class="shipping"  *ngFor="let ship of item.ship; let i = index"
+            [hidden]="ship.method==''">
+            <span>{{ship.method}}</span>
+            <code>{{ship.cost | number: '.5'}} ETH</code>
+        </div>
+    </div>
+</div>
+
+<h4 *ngIf="!myItem">{{'CHAT.WITH' | translate: translateParams}}
+    
+    
+</h4>
+<!-- <chat-inner [address]="chatAddress" [goInit]="goInit" [embed]="true" *ngIf="!myItem">
+</chat-inner> -->
+<chat-inner [address]="chatAddress" [goodsAddress]="item.address" [goodsTitle]="item.title" [type]="'buy'" [goInit]="goInit" [embed]="true" *ngIf="!myItem" [sender]="item.sender"> </chat-inner>
+<suggest [category]="category" [initSuggested]="initSuggested" [tags]="item['tags']"></suggest>
+
+
+<div id="myModal" class="modal" (click)="closePic()">
+    <div class="arrow left" *ngIf="item.img && item.img.length>1" (click)="arrowClicked('left', $event)">&lt;</div>
+    <div class="arrow right" *ngIf="item.img && item.img.length>1" (click)="arrowClicked('right', $event)">&gt;</div>
+    <img class="modal-content" id="img01">
+    <div id="caption"></div>
+</div>

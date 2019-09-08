@@ -1,0 +1,33 @@
+<div class="container-fluid">
+  
+      <div class="row">
+          <div class="col-lg-12">
+              <div class="view-header">
+                  <!--<div class="pull-right text-right" style="line-height: 14px">
+                      <small>
+                          <br>
+                          <span > {{'CATEGORIES.BREADCRUMB_TITLE_2' | translate}}</span>
+                          <br>
+                          <span class="c-white" > {{'CATEGORIES.BREADCRUMB_TITLE_3' | translate}}</span>
+                      </small>
+                  </div>-->
+                  <div class="header-icon">
+                      <i class="pe page-header-icon pe-7s-global"></i>
+                  </div>
+                  <div class="header-title">
+                      <h3> {{'CATEGORIES.TITLE' | translate}}</h3>
+                      
+                  </div>
+              </div>
+              <hr>
+          </div>
+      </div>
+
+
+
+   <span class="category" (click)="goCat(category.code)" *ngFor="let category of publicCategories">
+     <span *ngIf="category.goods > 0">
+       {{'CATEGORIES.'+ (!category.code || category.code == 'undefined' ? 'undefined' : category.code) | translate }} ({{category.goods}})
+     </span>
+   </span>
+  </div>

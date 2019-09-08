@@ -1,0 +1,487 @@
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="view-header">
+
+        <div class="header-icon">
+          <i class="pe page-header-icon pe-7s-tools"></i>
+        </div>
+        <div class="header-title">
+          <h3>{{'PREFERENCES.TITLE' | translate}}</h3>
+          <small>{{'PREFERENCES.SUBTITLE' | translate}}</small>
+        </div>
+      </div>
+      <hr>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-filled panel-c-accent">
+        <div class="panel-heading">
+          <h2>Version
+            <code>v1.4</code>
+          </h2>
+        </div>
+        <div class="panel-body">
+
+          <div class="bs-example">
+            <blockquote>
+              <p>
+                Internal IPFS daemon
+              </p>
+              <!--<button class="btn btn-default" (click)="callUpdater()">Check for updates</button>-->
+            </blockquote>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Begin Reporting Options -->
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel  panel-filled" [class.collapsed]="!visual.ipfs">
+        <div class="panel-heading" (click)="visual.ipfs=!visual.ipfs">
+          <div class="panel-tools">
+            <a class="panel-toggle">
+              <i class="fa fa-chevron-up"></i>
+            </a>
+          </div>
+          <span>{{'PREFERENCES.IPFS' | translate}}</span>
+          <br />
+        </div>
+        <div class="panel-body">
+          <button [ngClass]="{'btn-accent':(_ipfs=='on'), 'btn-default':(_ipfs!='on')}" class="btn btn-w-md" (click)="ipfs('on')">{{'PREFERENCES.IPFS_ON' | translate}}</button>
+          <button [ngClass]="{'btn-accent':(_ipfs=='off'), 'btn-default':(_ipfs!='off')}" class="btn btn-w-md" (click)="ipfs('off')">{{'PREFERENCES.IPFS_OFF' | translate}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Reporting Options -->
+
+  <!-- Begin Language Options -->
+  <div class="row">
+    <div class="col-lg-12">
+
+
+      <div class="panel panel-filled panel-c-accent buttons-margin">
+        <h4>
+          <div class="panel-heading">{{'PREFERENCES.LANGUAGE_SETTING' | translate}}</div>
+        </h4>
+
+        <div class="panel-body" ng-controller="TranslateController">
+          <button [ngClass]="{'btn-accent':isActive('en'), 'btn-default':!isActive('en')}" class="btn btn-w-md" (click)="selectLanguage('en')">English</button>
+          <!-- <button [ngClass]="{'btn-accent':isActive('zh'), 'btn-default':!isActive('zh')}" class="btn btn-w-md" (click)="selectLanguage('zh')">中文</button> -->
+          <button [ngClass]="{'btn-accent':isActive('ja'), 'btn-default':!isActive('ja')}" class="btn btn-w-md" (click)="selectLanguage('ja')">日本語</button>
+          <!--<button [ngClass]="{'btn-accent':isActive('de'), 'btn-default':!isActive('de')}" class="btn btn-w-md" (click)="selectLanguage('de')">Deutsch</button>
+            <button [ngClass]="{'btn-accent':isActive('fr'), 'btn-default':!isActive('fr')}" class="btn btn-w-md" (click)="selectLanguage('fr')">Français</button>
+            <button [ngClass]="{'btn-accent':isActive('da'), 'btn-default':!isActive('da')}" class="btn btn-w-md" (click)="selectLanguage('da')">Dansk</button>
+            <button [ngClass]="{'btn-accent':isActive('el'), 'btn-default':!isActive('el')}" class="btn btn-w-md" (click)="selectLanguage('el')">ελληνικά</button>
+            <button [ngClass]="{'btn-accent':isActive('fi'), 'btn-default':!isActive('fi')}" class="btn btn-w-md" (click)="selectLanguage('fi')">Suomi</button>
+            <button [ngClass]="{'btn-accent':isActive('it'), 'btn-default':!isActive('it')}" class="btn btn-w-md" (click)="selectLanguage('it')">Italiano</button>
+            <button [ngClass]="{'btn-accent':isActive('es'), 'btn-default':!isActive('es')}" class="btn btn-w-md" (click)="selectLanguage('es')">Español</button>
+            <button [ngClass]="{'btn-accent':isActive('ar'), 'btn-default':!isActive('ar')}" class="btn btn-w-md" (click)="selectLanguage('ar')">العَرَبِية </button>
+            <button [ngClass]="{'btn-accent':isActive('nl'), 'btn-default':!isActive('nl')}" class="btn btn-w-md" (click)="selectLanguage('nl')">Nederlands</button>
+            <button [ngClass]="{'btn-accent':isActive('pt'), 'btn-default':!isActive('pt')}" class="btn btn-w-md" (click)="selectLanguage('pt')">português</button>
+            <button [ngClass]="{'btn-accent':isActive('ru'), 'btn-default':!isActive('ru')}" class="btn btn-w-md" (click)="selectLanguage('ru')">русский</button>
+            <button [ngClass]="{'btn-accent':isActive('tr'), 'btn-default':!isActive('tr')}" class="btn btn-w-md" (click)="selectLanguage('tr')">Türkçe</button>
+            <button [ngClass]="{'btn-accent':isActive('he'), 'btn-default':!isActive('he')}" class="btn btn-w-md" (click)="selectLanguage('he')">עברית</button>
+            <button [ngClass]="{'btn-accent':isActive('ko'), 'btn-default':!isActive('ko')}" class="btn btn-w-md" (click)="selectLanguage('ko')">한국어</button>
+            <button [ngClass]="{'btn-accent':isActive('hi'), 'btn-default':!isActive('hi')}" class="btn btn-w-md" (click)="selectLanguage('hi')">हिन्दी </button>
+            <button [ngClass]="{'btn-accent':isActive('ka'), 'btn-default':!isActive('ka')}" class="btn btn-w-md" (click)="selectLanguage('ka')">ქართული</button>
+            <button [ngClass]="{'btn-accent':isActive('fil'), 'btn-default':!isActive('fil')}" class="btn btn-w-md" (click)="selectLanguage('fil')">Filipino</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Language Options -->
+
+
+  <!-- Begin Blacklisting Options -->
+  <div class="row" style="display: none">
+    <div class="col-lg-12">
+      <div class="panel  panel-filled" [class.collapsed]="!visual.blacklist">
+        <div class="panel-heading" (click)="visual.blacklist=!visual.blacklist">
+          <div class="panel-tools">
+            <a class="panel-toggle">
+              <i class="fa fa-chevron-up"></i>
+            </a>
+          </div>
+          <span>{{'PREFERENCES.BLACKLIST_OPTIONS' | translate}}</span>
+          <br />
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <h4>{{'PREFERENCES.DEFAULT_BLACKLIST' | translate}}</h4>
+                <button class="btn btn-w-md" [ngClass]="{'btn-success': defaultBlacklist == 'on', 'btn-default': defaultBlacklist !== 'on'}"
+                  (click)="change('defaultBlacklist', 'on')">{{'PREFERENCES.ON' | translate}}</button>
+                <button class="btn btn-w-md" [ngClass]="{'btn-danger': defaultBlacklist == 'off', 'btn-default': defaultBlacklist !== 'off'}"
+                  (click)="change('defaultBlacklist', 'off')">{{'PREFERENCES.OFF' | translate}}</button>
+                <p class="help-block" *ngIf="defaultBlacklist == 'on'">
+                  <span>{{'PREFERENCES.DEFAULT_BLACKLIST_HELP_ON' | translate}}</span>
+                </p>
+                <p class="help-block" *ngIf="defaultBlacklist == 'off'">
+                  <span>{{'PREFERENCES.DEFAULT_BLACKLIST_HELP_OFF' | translate}}</span>
+                </p>
+              </div>
+              <hr />
+              <div class="form-group">
+                <h4>{{'PREFERENCES.THIRD_BLACKLIST' | translate}}</h4>
+                <label for="3rdPartyAddress">
+                  <span>{{'PREFERENCES.BLACKLIST_ADD_TEXT' | translate}}</span>
+                </label>
+                <input type="text" ng-model="blacklist_address" required class="form-control" name="3rdPartyAddress" id="3rdPartyAddress"
+                  placeholder="{{ 'PREFERENCES.THIRD_ADDRESS' | translate }}">
+              </div>
+              <form novalidate>
+                <button type="submit" (click)="addBlacklist(blacklist_address)" class="btn btn-warning">{{'PREFERENCES.BLACKLIST_ADD_BUTTON' | translate}}</button>
+              </form>
+              <br />
+              <h5>{{'PREFERENCES.BLACKLIST_SUBSCRIPTION_HEADER' | translate}}</h5>
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>{{'PREFERENCES.BLACKLIST_ADDRESS_HEADER' | translate}}</th>
+                      <th>{{'PREFERENCES.BLACKLIST_ACTION_HEADER' | translate}}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae</td>
+                      <td>
+                        <button type="submit" class="btn btn-danger btn-xs">{{'PREFERENCES.BLACKLIST_REMOVE_BUTTON' | translate}}</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>0x775e18be7a50a0abb8a4e82b1bd697d79f31fe04</td>
+                      <td>
+                        <button type="submit" class="btn btn-danger btn-xs">{{'PREFERENCES.BLACKLIST_REMOVE_BUTTON' | translate}}</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>0x063dd253c8da4ea9b12105781c9611b8297f5d14</td>
+                      <td>
+                        <button type="submit" class="btn btn-danger btn-xs">{{'PREFERENCES.BLACKLIST_REMOVE_BUTTON' | translate}}</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>0x3fb1cd2cd96c6d5c0b5eb3322d807b34482481d4</td>
+                      <td>
+                        <button type="submit" class="btn btn-danger btn-xs">{{'PREFERENCES.BLACKLIST_REMOVE_BUTTON' | translate}}</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Blacklisting Options -->
+
+  <div class="row buttons">
+    <button class="btn btn-default" (click)="clearCache()">{{'PREFERENCES.CLEAR_CACHE' | translate}}</button>
+    <button class="btn btn-default" (click)="clearSettings()">{{'PREFERENCES.CLEAR_SETTINGS' | translate}}</button>
+    <button class="btn btn-default" (click)="resetTour()">{{'PREFERENCES.RESET_TOUR' | translate}}</button>
+  </div>
+
+  <!-- Begin Address Options -->
+  <div class="row">
+
+    <div class="col-lg-12">
+      <div class="panel  panel-filled" [class.collapsed]="!visual.address">
+        <div class="panel-heading" (click)="visual.address=!visual.address">
+          <div class="panel-tools">
+            <a class="panel-toggle">
+              <i class="fa fa-chevron-up"></i>
+            </a>
+          </div>
+          <span>{{'PREFERENCES.SAVED_ADDRESSES' | translate}}</span>
+          <br />
+        </div>
+        <app-addresses [addresses]="addresses"></app-addresses>
+      </div>
+    </div>
+  </div>
+
+  <!-- Begin Address Options -->
+  <div class="row">
+
+    <div class="col-lg-12">
+      <div class="panel  panel-filled" [class.collapsed]="!visual.gas">
+        <div class="panel-heading" (click)="visual.gas=!visual.gas">
+          <div class="panel-tools">
+            <a class="panel-toggle">
+              <i class="fa fa-chevron-up"></i>
+            </a>
+          </div>
+          <span>{{'PREFERENCES.GAS_TAB' | translate}}</span>
+          <br />
+        </div>
+        <div class="panel-body">
+          <div class="row gas" [class.gasChosen]="currentGasType == 'http'">
+            <div class="col-md-6">
+              {{'PREFERENCES.GASSTATION' | translate}}:
+              <code *ngIf="safelowGasHTTP">{{safelowGasHTTP}}</code>
+              <code *ngIf="!safelowGasHTTP">{{'COMMON.LOADING' | translate}}</code>
+            </div>
+            <div class="col-md-6">
+              <button class="btn btn-default" (click)="setGasOption('http')">{{'PREFERENCES.GAS_FOLLOW' | translate}}</button>
+            </div>
+          </div>
+          <div class="row gas" [class.gasChosen]="currentGasType == 'api'">
+            <div class="col-md-6">
+              {{'PREFERENCES.GASBLOCKS' | translate}}:
+              <code *ngIf="safelowGasAPI">{{safelowGasAPI}}</code>
+              <code *ngIf="!safelowGasAPI">{{'COMMON.LOADING' | translate}}</code>
+            </div>
+            <div class="col-md-6">
+              <button class="btn btn-default" (click)="setGasOption('api')">{{'PREFERENCES.GAS_FOLLOW' | translate}}</button>
+            </div>
+          </div>
+          <div class="row gas" [class.gasChosen]="currentGasType == 'manual'">
+
+            <div class="col-md-6">
+              <input type="number" [(ngModel)]="gas" required class="form-control" name="gas" id="gas" placeholder="{{ 'PREFERENCES.GAS_INPUT' | translate }}">
+            </div>
+            <div class="col-md-6">
+              <button class="btn btn-default" (click)="setGasOption('manual')">{{'PREFERENCES.SET_GAS' | translate}}</button>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <b>{{'PREFERENCES.CURRENT_GAS' | translate}}</b>:
+              <code>{{currentGas}}</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Address Options -->
+
+  <!-- Begin Privacy Options -->
+  <div class="row" style="display: none">
+    <div class="col-lg-12">
+      <div class="panel  panel-filled" [class.collapsed]="!visual.privacy">
+        <div class="panel-heading" (click)="visual.privacy=!visual.privacy">
+          <div class="panel-tools">
+            <a class="panel-toggle">
+              <i class="fa fa-chevron-up"></i>
+            </a>
+          </div>
+          <span>{{'PREFERENCES.PRIVACY_OPTIONS' | translate}}</span>
+          <br />
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <h4>{{'PREFERENCES.PRIVACY_SETTING' | translate}}</h4>
+
+                <button class="btn btn-w-md" [ngClass]="{'btn-warning': privacyLevel == 'regular', 'btn-default': privacyLevel !== 'regular'}"
+                  (click)="change('privacyLevel', 'regular')">
+                  <i class="fa fa-cloud"></i>
+                  <span class="bold">{{'PREFERENCES.REGULAR_BUTTON' | translate}}</span>
+                </button>
+                <button class="btn btn-w-md" [ngClass]="{'btn-warning': privacyLevel == 'high', 'btn-default': privacyLevel !== 'high'}"
+                  (click)="change('privacyLevel', 'high')">
+                  <i class="fa fa-desktop"></i>
+                  <span class="bold">{{'PREFERENCES.HIGH_BUTTON' | translate}}</span>
+                </button>
+
+
+                <p class="help-block" *ngIf="privacyLevel == 'regular'">{{'PREFERENCES.PRIVACY_HELP_REGULAR' | translate}}</p>
+                <p class="help-block" *ngIf="privacyLevel == 'high'">{{'PREFERENCES.PRIVACY_HELP_HIGH' | translate}}</p>
+              </div>
+              <div class="form-group">
+                <h4>{{'PREFERENCES.2FA_SETTINGS' | translate}}</h4>
+                <button class="btn btn-w-md" [ngClass]="{'btn-danger': pref2fa == 'always', 'btn-default': pref2fa !== 'always'}" (click)="change('pref2fa', 'always')">
+                  <i class="fa fa-lock"></i>
+                  <span class="bold">{{'PREFERENCES.2FA_ALWAYS' | translate}}</span>
+                </button>
+                <button class="btn btn-w-md" [ngClass]="{'btn-danger': pref2fa == 'timeout', 'btn-default': pref2fa !== 'timeout'}" (click)="change('pref2fa', 'timeout')">
+                  <i class="fa fa-unlock"></i>
+                  <span class="bold">{{'PREFERENCES.2FA_TIMEOUT' | translate}}</span>
+                </button>
+                <button class="btn btn-w-md" [ngClass]="{'btn-danger': pref2fa == 'never', 'btn-default': pref2fa !== 'never'}" (click)="change('pref2fa', 'never')">
+                  <i class="fa fa-unlock"></i>
+                  <span class="bold">{{'PREFERENCES.2FA_NEVER' | translate}}</span>
+                </button>
+                <button class="btn btn-w-md" [ngClass]="{'btn-danger': pref2fa == 'disabled', 'btn-default': pref2fa !== 'disabled'}" (click)="change('pref2fa', 'disabled')">
+                  <i class="fa fa-unlock"></i>
+                  <span class="bold">{{'PREFERENCES.2FA_DISABLED' | translate}}</span>
+                </button>
+                <p class="help-block" *ngIf="pref2fa == 'always'">{{'PREFERENCES.2FA_HELP_ALWAYS' | translate}}</p>
+                <p class="help-block" *ngIf="pref2fa == 'timeout'">{{'PREFERENCES.2FA_HELP_TIMEOUT' | translate}}</p>
+                <p class="help-block" *ngIf="pref2fa == 'never'">{{'PREFERENCES.2FA_HELP_NEVER' | translate}}</p>
+                <p class="help-block" *ngIf="pref2fa == 'disabled'">{{'PREFERENCES.2FA_HELP_DISABLED' | translate}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Privacy Options -->
+
+  <!--  start Country of Legal Residence. -->
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel  panel-filled" [class.collapsed]="!visual.reportingCountry">
+        <div class="panel-heading" (click)="visual.reportingCountry=!visual.reportingCountry">
+          <div class="panel-tools">
+            <a class="panel-toggle">
+              <i class="fa fa-chevron-up"></i>
+            </a>
+          </div>
+          <span>{{'PREFERENCES.RESIDENCE_COUNTY' | translate}}</span>
+          <br />
+        </div>
+        <div class="panel-body">
+          <div class="col-md-6">
+            <p *ngIf="country !== 'select'"> {{'PREFERENCES.CHOSEN_COUNTRY' | translate}} : {{country}} </p>
+            <select class="form-control" name="countryname"  (click)="chooseCountry($event)"  [(ngModel)]="country">
+              <option [value]="c.name" *ngFor="let c of countryList"> {{c.name}}</option>
+            </select>
+            <p *ngIf="country === 'select'"> {{'PREFERENCES.COUNTRY_MESSAGE' | translate}} </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ <!--  End Country of Legal Residence. -- >
+
+  <!-- Begin Theme Options -->
+  <!--<div class="row">-->
+    <!--<div class="col-lg-12">-->
+      <!--<div class="panel  panel-filled" [class.collapsed]="!visual.theme">-->
+        <!--<div class="panel-heading" (click)="visual.theme=!visual.theme">-->
+          <!--<div class="panel-tools">-->
+            <!--<a class="panel-toggle">-->
+              <!--<i class="fa fa-chevron-up"></i>-->
+            <!--</a>-->
+          <!--</div>-->
+          <!--<span>{{'PREFERENCES.THEME_OPTIONS' | translate}}</span>-->
+          <!--<br />-->
+        <!--</div>-->
+        <!--<div class="panel-body">-->
+          <!--<button [ngClass]="{'btn-accent':isActiveTheme('default'), 'btn-default':!isActiveTheme('default')}" class="btn btn-w-md"-->
+            <!--(click)="selectTheme('default')">{{'PREFERENCES.THEME_DEFAULT' | translate}}</button>-->
+          <!--&lt;!&ndash; <button [ngClass]="{'btn-accent':isActiveTheme('light'), 'btn-default':!isActiveTheme('light')}" class="btn btn-w-md" (click)="selectTheme('light')">{{'PREFERENCES.THEME_LIGHT' | translate}}</button> &ndash;&gt;-->
+
+          <!--<button class="btn btn-default btn-w-md" (click)="openFileUpload()">{{'PREFERENCES.ADD_THEME' | translate}}</button>-->
+          <!--<input type='file' class="hidden" id="theme-upload" accept='text/xml' (change)="openFile($event)">-->
+          <!--<h5>{{'PREFERENCES.USER_THEMES' | translate}}</h5>-->
+          <!--<div class="table-responsive">-->
+            <!--<table class="table table-bordered">-->
+              <!--<thead>-->
+                <!--<tr>-->
+                  <!--<th>{{'PREFERENCES.USER_THEMES_NAME' | translate}}</th>-->
+                  <!--<th>{{'PREFERENCES.USER_THEMES_AUTHOR' | translate}}</th>-->
+                  <!--&lt;!&ndash;<th>{{'PREFERENCES.ADDRESS_ACTION_HEADER' | translate}}</th>&ndash;&gt;-->
+                <!--</tr>-->
+              <!--</thead>-->
+              <!--<tbody>-->
+                <!--<tr *ngFor="let theme of themes; let i = index">-->
+                  <!--<td (click)="applyTheme(theme, i)">{{theme.name}}</td>-->
+                  <!--<td>{{theme.author}}</td>-->
+                  <!--<td>-->
+                    <!--<button type="submit" class="btn btn-danger btn-xs" (click)="removeTheme(i)">{{'PREFERENCES.ADDRESS_REMOVE_BUTTON' | translate}}</button>-->
+                  <!--</td>-->
+                <!--</tr>-->
+              <!--</tbody>-->
+            <!--</table>-->
+          <!--</div>-->
+        <!--</div>-->
+
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+  <!-- End Theme Options -->
+
+
+  <!-- Begin Reporting Options -->
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel  panel-filled" [class.collapsed]="!visual.reporting">
+        <div class="panel-heading" (click)="visual.reporting=!visual.reporting">
+          <div class="panel-tools">
+            <a class="panel-toggle">
+              <i class="fa fa-chevron-up"></i>
+            </a>
+          </div>
+          <span>{{'PREFERENCES.REPORTING_OPTIONS' | translate}}</span>
+          <br />
+        </div>
+        <div class="panel-body">
+          <button [ngClass]="{'btn-accent':(_reporting=='on'), 'btn-default':(_reporting!='on')}" class="btn btn-w-md" (click)="reporting('on')">{{'PREFERENCES.REPORTING_OPTIONS_ON' | translate}}</button>
+          <button [ngClass]="{'btn-accent':(_reporting=='off'), 'btn-default':(_reporting!='off')}" class="btn btn-w-md" (click)="reporting('off')">{{'PREFERENCES.REPORTING_OPTIONS_OFF' | translate}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Reporting Options -->
+
+
+  <!-- Market Maker Address -->
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel  panel-filled" [class.collapsed]="!visual.storefront">
+        <div class="panel-heading" (click)="visual.storefront=!visual.storefront">
+          <div class="panel-tools">
+            <a class="panel-toggle">
+              <i class="fa fa-chevron-up"></i>
+            </a>
+          </div>
+          <span>Storefront</span>
+          <br />
+        </div>
+        <div class="panel-body">
+          <div class="form-group">
+            <label for="storefrontname">
+              <span>Add or edit new Storefront name</span>
+            </label>
+            <input type="text" [(ngModel)]="data.storename" required class="form-control" name="storefrontname" id="storefrontname"
+                   placeholder="Storefront Name">
+          </div>
+
+          <div>
+            <form novalidate>
+              <button type="submit" (click)="addmarket()" class="btn btn-warning">Submit</button>
+            </form>
+          </div>
+
+          <div>
+            <table class="table table-striped table-hover ng-isolate-scope dataTable no-footer" style="display: table;" >
+              <thead>
+              <tr role="row">
+                <th>Current Storefront name</th>
+              </tr>
+              </thead>
+              <tbody>
+              <td colspan=5 class="noitems" *ngIf="!storedata || storedata == 'undefined'">
+                <span>No Store are Found.</span>
+              </td>
+              <tr *ngIf="storedata">
+                <td>{{storedata.storename}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>

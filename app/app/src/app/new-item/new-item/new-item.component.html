@@ -1,0 +1,466 @@
+<app-set-shipping-address (formFilled)="setAddress($event)"></app-set-shipping-address>
+
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="view-header">
+
+        <div class="header-icon" tourAnchor="myitems">
+          <i class="pe page-header-icon pe-7s-pen"></i>
+        </div>
+        <div class="header-title">
+          <h3>{{'LIST_NEW_ITEM.TITLE' | translate}}</h3>
+          <small>{{'LIST_NEW_ITEM.SUBTITLE' | translate}}</small>
+        </div>
+      </div>
+      <hr>
+    </div>
+  </div>
+
+  <div *ngIf="!successfullyListed">
+    <div ng-show="loggedinStatus.loggedin">
+
+      <div class="row">
+        <div class="col-lg-12">
+          <a class=" goWizard" type="button" (click)="goWizard()">
+            <span class="bold">{{'LIST_NEW_ITEM.GO_WIZARD' | translate}}</span>
+          </a>
+          <div class="panel">
+            <div class="panel-heading">
+            </div>
+            <div class="panel-body">
+              <form name="item_basics" novalidate>
+                <div class="form-group">
+                  <label for="itemTitle">
+                    <span>{{'LIST_NEW_ITEM.ITEM_TITLE' | translate}}</span>
+                  </label>
+                  <input type="text" [(ngModel)]="data.title" (blur)="inputChange('title', data.title)" (ngModelChange)="inputChange('title', $event)"
+                    required class="form-control" name="itemTitle" id="itemTitle" placeholder="{{ 'COMMON.REQUIRED' | translate }}">
+                </div>
+                <div class="error-block" *ngIf="required.title">
+                  <p ng-message="required">{{'ERROR.TITLE_REQUIRED' | translate}}</p>
+                </div>
+
+                <div class=form-group>
+                  <label for="itemDescription">
+                    <span>{{'LIST_NEW_ITEM.ITEM_DESCRIPTION' | translate}}</span>
+                  </label>
+                  <textarea class="form-control" [(ngModel)]="data.description" (blur)="inputChange('description', data.description)" (ngModelChange)="inputChange('description', $event)"
+                    maxlength="5000" name="itemDescription" required ng-model="item.description" rows="3" placeholder="{{ 'COMMON.REQUIRED' | translate }}"></textarea>
+                </div>
+                <div class="error-block" *ngIf="required.description">
+                  <p ng-message="required">{{'ERROR.DESCRIPTION_REQUIRED' | translate}}</p>
+                </div>
+
+                <div class="form-group tt-info hover-tt-top" data-hover="Hit 'Upload' button to crop and upload your image anonymously to imgur!">
+                  <label for="imageURLmain">
+                    <span>{{'LIST_NEW_ITEM.MAIN_IMAGE_URL' | translate}}</span>
+                    <a class="upload-link" (click)="openPic(0)">{{'COMMON.UPLOAD' | translate}}</a>
+                  </label>
+                  <div class="imgur-container">
+                    <input type="text" [ngModelOptions]="{standalone: true}" class="form-control upload-input" [(ngModel)]="data.img[0]" placeholder="{{ 'COMMON.OPTIONAL' | translate }}">
+
+                  </div>
+                </div>
+                <div class="error-block" *ngIf="!checkHttp(data.img[0])">
+                  <p ng-message="required">{{'ERROR.INVALID_HTTP' | translate}}</p>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" [hidden]="data.img[0]=='' || !checkHttp(data.img[0])">
+        <div class="col-lg-12">
+
+          <div class="panel panel-filled" [class.collapsed]="!visual.images">
+            <div class="panel-heading" (click)="visual.images = !visual.images">
+              <div class="panel-tools">
+                <a class="panel-toggle">
+                  <i class="fa" [class.fa-chevron-up]="visual.images" [class.fa-chevron-down]="!visual.images"></i>
+                </a>
+              </div>
+              <span>{{'LIST_NEW_ITEM.ADDITIONAL_IMAGE_URLS' | translate}}</span>
+            </div>
+            <div class="panel-body">
+              <form name="item_urls" novalidate>
+
+                <div class="form-group">
+                  <label for="imageURL1">
+                    <span>{{'LIST_NEW_ITEM.ADDITIONAL_URL' | translate}}</span>
+                    <a class="upload-link" (click)="openPic(1)">{{'COMMON.UPLOAD' | translate}}</a>
+                  </label>
+                  <div class="imgur-container">
+                    <input type="text" [ngModelOptions]="{standalone: true}" class="form-control upload-input" [(ngModel)]="data.img[1]" placeholder="{{ 'COMMON.OPTIONAL' | translate }}">
+
+                  </div>
+                </div>
+                <div class="error-block" *ngIf="!checkHttp(data.img[1])">
+                  <p ng-message="required">{{'ERROR.INVALID_HTTP' | translate}}</p>
+                </div>
+
+                <div class="form-group" [hidden]="data.img[1]=='' || !checkHttp(data.img[1])">
+                  <label for="imageURL2">
+                    <span>{{'LIST_NEW_ITEM.ADDITIONAL_URL' | translate}}</span>
+                    <a class="upload-link" (click)="openPic(2)">{{'COMMON.UPLOAD' | translate}}</a>
+                  </label>
+                  <div class="imgur-container">
+                    <input type="text" [ngModelOptions]="{standalone: true}" class="form-control upload-input" [(ngModel)]="data.img[2]" placeholder="{{ 'COMMON.OPTIONAL' | translate }}">
+
+                  </div>
+                </div>
+                <div class="error-block" *ngIf="!checkHttp(data.img[2])" [hidden]="data.img[1]=='' || !checkHttp(data.img[1])">
+                  <p ng-message="required">{{'ERROR.INVALID_HTTP' | translate}}</p>
+                </div>
+
+                <div class="form-group" [hidden]="data.img[2]=='' || !checkHttp(data.img[2])">
+                  <label for="imageURL3">
+                    <span>{{'LIST_NEW_ITEM.ADDITIONAL_URL' | translate}}</span>
+                    <a class="upload-link" (click)="openPic(3)">{{'COMMON.UPLOAD' | translate}}</a>
+                  </label>
+                  <div class="imgur-container">
+                    <input type="text" [ngModelOptions]="{standalone: true}" class="form-control upload-input" [(ngModel)]="data.img[3]" placeholder="{{ 'COMMON.OPTIONAL' | translate }}">
+
+                  </div>
+                </div>
+                <div class="error-block" *ngIf="!checkHttp(data.img[3])" [hidden]="data.img[2]=='' || !checkHttp(data.img[2])">
+                  <p ng-message="required">{{'ERROR.INVALID_HTTP' | translate}}</p>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="panel">
+            <div class="panel-heading">
+            </div>
+            <div class="panel-body">
+              <form name="item_details" novalidate>
+                <div class="form-group tt-info hover-tt-top" data-hover="Chosing a category increases chances of item to be bought by 35%!">
+                  <label>
+                    <span>{{'LIST_NEW_ITEM.CATEGORY' | translate}}</span>
+                  </label>
+                  <select id="catObjectSelect" required ng-model="item.category" name="catObjectSelect" class="form-control" (blur)="inputChange('category', data.cat)"
+                    (ngModelChange)="inputChange('category', $event)" (change)="selectChange($event)">
+                    <option style="display:none">{{'CATEGORIES.PLEASE_SELECT' | translate}}</option>
+                    <option value="ANTIQUE">{{ 'CATEGORIES.ANTIQUE' | translate }}</option>
+                    <option value="ART">{{ 'CATEGORIES.ART' | translate }}</option>
+                    <option value="BABY">{{ 'CATEGORIES.BABY' | translate }}</option>
+                    <option value="BOOK">{{ 'CATEGORIES.BOOK' | translate }}</option>
+                    <option value="BUSINESS">{{ 'CATEGORIES.BUSINESS' | translate }}</option>
+                    <option value="INDUSTRY">{{ 'CATEGORIES.INDUSTRY' | translate }}</option>
+                    <option value="CAMERA">{{ 'CATEGORIES.CAMERA' | translate }}</option>
+                    <option value="CELL">{{ 'CATEGORIES.CELL' | translate }}</option>
+                    <option value="CLOTHING">{{ 'CATEGORIES.CLOTHING' | translate }}</option>
+                    <option value="COIN">{{ 'CATEGORIES.COIN' | translate }}</option>
+                    <option value="COLLECT">{{ 'CATEGORIES.COLLECT' | translate }}</option>
+                    <option value="COMPUTER">{{ 'CATEGORIES.COMPUTER' | translate }}</option>
+                    <option value="CONSUME">{{ 'CATEGORIES.CONSUME' | translate }}</option>
+                    <option value="ELECTRON">{{ 'CATEGORIES.ELECTRON' | translate }}</option>
+                    <option value="CRAFT">{{ 'CATEGORIES.CRAFT' | translate }}</option>
+                    <option value="DOLL">{{ 'CATEGORIES.DOLL' | translate }}</option>
+                    <option value="DVD">{{ 'CATEGORIES.DVD' | translate }}</option>
+                    <option value="ENTERTAIN">{{ 'CATEGORIES.ENTERTAIN' | translate }}</option>
+                    <option value="OTHER">{{ 'CATEGORIES.OTHER' | translate }}</option>
+                    <option value="FOOD">{{ 'CATEGORIES.FOOD' | translate }}</option>
+                    <option value="CARD">{{ 'CATEGORIES.CARD' | translate }}</option>
+                    <option value="HEALTH">{{ 'CATEGORIES.HEALTH' | translate }}</option>
+                    <option value="HOME">{{ 'CATEGORIES.HOME' | translate }}</option>
+                    <option value="JEWELRY">{{ 'CATEGORIES.JEWELRY' | translate }}</option>
+                    <option value="MUSIC">{{ 'CATEGORIES.MUSIC' | translate }}</option>
+                    <option value="INSTRUMENT">{{ 'CATEGORIES.INSTRUMENT' | translate }}</option>
+                    <option value="NETWORK">{{ 'CATEGORIES.NETWORK' | translate }}</option>
+                    <option value="PET">{{ 'CATEGORIES.PET' | translate }}</option>
+                    <option value="POTTERY">{{ 'CATEGORIES.POTTERY' | translate }}</option>
+                    <option value="REAL_ESTATE">{{ 'CATEGORIES.REAL_ESTATE' | translate }}</option>
+                    <option value="DEFENSE">{{ 'CATEGORIES.DEFENSE' | translate }}</option>
+                    <option value="SERVICE">{{ 'CATEGORIES.SERVICE' | translate }}</option>
+                    <option value="SPORT">{{ 'CATEGORIES.SPORT' | translate }}</option>
+                    <option value="SPORT_MEMO">{{ 'CATEGORIES.SPORT_MEMO' | translate }}</option>
+                    <option value="STAMP">{{ 'CATEGORIES.STAMP' | translate }}</option>
+                    <option value="TICKET">{{ 'CATEGORIES.TICKET' | translate }}</option>
+                    <option value="TOY">{{ 'CATEGORIES.TOY' | translate }}</option>
+                    <option value="TRAVEL">{{ 'CATEGORIES.TRAVEL' | translate }}</option>
+                    <option value="VIDEO_GAME">{{ 'CATEGORIES.VIDEO_GAME' | translate }}</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="tag1">
+                    <span>{{'LIST_NEW_ITEM.TAG_1' | translate}}</span>
+                  </label>
+                  <input type="text" [(ngModel)]="data.tags[0]" class="form-control" name="tag1" id="tag1" placeholder="{{ 'COMMON.OPTIONAL' | translate }}">
+                </div>
+
+                <div class="form-group">
+                  <label for="tag2">
+                    <span>{{'LIST_NEW_ITEM.TAG_2' | translate}}</span>
+                  </label>
+                  <input type="text" [(ngModel)]="data.tags[1]" class="form-control" name="tag2" id="tag2" placeholder="{{ 'COMMON.OPTIONAL' | translate }}">
+                </div>
+
+                <div class="form-group">
+                  <label for="tag3">
+                    <span>{{'LIST_NEW_ITEM.TAG_3' | translate}}</span>
+                  </label>
+                  <input type="text" [(ngModel)]="data.tags[2]" class="form-control" name="tag3" id="tag3" placeholder="{{ 'COMMON.OPTIONAL' | translate }}">
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="panel">
+            <div class="panel-heading">
+            </div>
+            <div class="panel-body">
+              <form name="item_details2" novalidate>
+                <div class=form-group>
+                  <label>
+                    <span>{{'LIST_NEW_ITEM.QUANTITY_TO_SELL' | translate}}</span>
+                  </label>
+                  <div class="input-group ng-scope ng-not-empty ng-dirty ng-valid ng-valid-parse">
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default quantity-button" (click)="decQuantity()">
+                        <i class="fa fa-minus"></i>
+                      </button>
+                    </span>
+                    <input type="text" class="form-control spinner-box ng-pristine ng-untouched ng-valid ng-not-empty" [(ngModel)]="data.saleCount"
+                      (ngModelChange)="inputChange('saleCount', $event)" [ngModelOptions]="{standalone: true}">
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default quantity-button" (click)="incQuantity()">
+                        <i class="fa fa-plus"></i>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="price">
+                    <span>{{'LIST_NEW_ITEM.PRICE' | translate}}</span>
+                  </label>
+                  <input type="text" [(ngModel)]="data.price" (blur)="inputChange('price', data.price)" (ngModelChange)="inputChange('price', $event)"
+                    (keyup)='priceConversion()' required class="form-control" name="price" id="price" placeholder="{{ 'COMMON.REQUIRED' | translate }}">
+                </div>
+                <div class="error-block" *ngIf="required.price" ng-messages="item_details2.price.$error" ng-if="item_details2.price.$touched">
+                  <p ng-message="required">{{'ERROR.PRICE_REQUIRED' | translate}}</p>
+                </div>
+                <div class="error-block" *ngIf="price_num" ng-messages="item_details2.price.$error" ng-if="item_details2.price.$dirty">
+                  <p ng-message when="pattern">{{'ERROR.NUMBERS_REQUIRED' | translate}}</p>
+                </div>
+                <div class="error-block" *ngIf="!required.price && price === 0">
+                  <p>{{'ERROR.PRICE_GRATER_THAN_ZERO' | translate }}</p>
+                </div>
+
+                <div class="form-group">
+                  <label for="duration">
+                    <span>{{'LIST_NEW_ITEM.LISTING_DURATION' | translate}}</span>
+                  </label>
+                  <div class="radio">
+                    <label>
+                      <input type="radio" (click)='duration = 1209600' [checked]="duration == 1209600" value=1209600>
+                      <span>{{'LIST_NEW_ITEM.2_WEEKS' | translate}}</span>
+                    </label>
+                  </div>
+                  <div class="radio">
+                    <label>
+                      <input type="radio" (click)='duration = 2419200' [checked]="duration == 2419200" value=2419200>
+                      <span>{{'LIST_NEW_ITEM.4_WEEKS' | translate}}</span>
+                    </label>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Begin shipping options -->
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="panel panel-filled" [class.collapsed]="!visual.shipping">
+            <div class="panel-heading" (click)="visual.shipping = !visual.shipping">
+              <div class="panel-tools">
+                <a class="panel-toggle">
+                  <i class="fa" [class.fa-chevron-up]="visual.shipping" [class.fa-chevron-down]="!visual.shipping"></i>
+                </a>
+              </div>
+              <span>{{'LIST_NEW_ITEM.SHIPPING_OPTIONS' | translate}}</span>
+            </div>
+            <div class="panel-body">
+              <form name="item_shipping" novalidate>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox" (click)="change('shipping_checkbox')">
+                          <span>{{'LIST_NEW_ITEM.SHIPPING_REQUIRED' | translate}}</span>
+                        </label>
+                        <p class="help-block">
+                          <span>{{'LIST_NEW_ITEM.REQUIRED_SHIPPING_HELP' | translate}}</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Begin shipping methods and prices, hidden if Require Shipping not checked -->
+                <div class="row" [hidden]="!visual.shipping_checkbox" *ngFor="let ship of data.ship; let i = index">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="shipping_method_1">
+                        <span>{{'LIST_NEW_ITEM.SHIPPING_METHOD_NAME' | translate}}</span>
+                      </label>
+                      <input type="text" [(ngModel)]="ship.method" (ngModelChange)="shipChange(i)" class="form-control" id="shipping_method_1"
+                        placeholder="{{ 'COMMON.OPTIONAL' | translate }}" [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <div class="error-block" *ngIf="ship.methodError && ship.methodError.length">
+                      <p ng-message when="pattern">{{ ship.methodError | translate}}</p>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="shipping_cost_1">
+                        <span>{{'LIST_NEW_ITEM.SHIPPING_COST' | translate}}</span>
+                      </label>
+                      <input type="text" [(ngModel)]="ship.cost" (ngModelChange)="shipChange(i)" placeholder="{{ 'COMMON.OPTIONAL' | translate }}"
+                        (keyup)='conversion(i)' [ngModelOptions]="{standalone: true}" class="form-control">
+                    </div>
+                    <div class="error-block" *ngIf="ship.costError && ship.costError.length">
+                      <p ng-message when="pattern">{{ ship.costError | translate}}</p>
+                    </div>
+                  </div>
+                </div>
+
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End shipping options -->
+
+      <!-- Begin escrow options -->
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="panel panel-filled" [class.collapsed]="!visual.escrow">
+            <div class="panel-heading" (click)="visual.escrow = !visual.escrow">
+              <div class="panel-tools">
+                <a class="panel-toggle">
+                  <i class="fa" [class.fa-chevron-up]="visual.escrow" [class.fa-chevron-down]="!visual.escrow"></i>
+                </a>
+              </div>
+              <span>{{'LIST_NEW_ITEM.ESCROW_OPTIONS' | translate}}</span>
+            </div>
+            <div class="panel-body">
+              <form name="escrow_info" novalidate>
+                <div class="form-group">
+                  <label for="escrowAddress">
+                    <span>{{'LIST_NEW_ITEM.ESCROW_ADDRESS' | translate}}</span>
+                  </label>
+                  <input type="text" [(ngModel)]="data.escrow" class="form-control" name="escrowAddress" id="escrowAddress" placeholder="{{ 'COMMON.OPTIONAL' | translate }}">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End escrow options -->
+
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="panel">
+            <div class="panel-heading">
+            </div>
+            <div class="panel-body">
+              <form name="submit_section" novalidate>
+                <div class="form-group">
+
+                  <div class="radio">
+                    <label class="agreement-checkbox">
+                      <input type="checkbox" [(ngModel)]="agreement" name="agreement" (blur)="inputChange('agreement', agreement)" (ngModelChange)="inputChange('agreement', $event)">
+                      <span>{{'LIST_NEW_ITEM.AGREEMENT_SHORT' | translate}}.
+                        <a (click)="showAgreement()">{{'LIST_NEW_ITEM.AGREEMENT_LINK' | translate}}</a>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+                <div class="error-block" *ngIf="mainErrorMessage">
+                  <p ng-message="required">{{'COMMON.FILLALL' | translate}}</p>
+                </div>
+                <div class="form-group tt-info hover-tt-top" data-hover="Please carefully check all of the fields, because re-listing or modifying the listing will cost another fee.">
+                  <button class="btn btn-warning" type="button" [disabled]="!button || !agreement || !isShippingValid" (click)="submit()">
+                    <i class="fa fa-check" ng-class="animateListing"></i>
+                    <span class="bold">{{'LIST_NEW_ITEM.LIST_BUTTON_TEXT' | translate}}</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div ng-show="listingStatus" *ngIf="successfullyListed">
+    <div class="row">
+      <div class="col-lg-12">
+
+        <div class="panel panel-filled panel-c-accent">
+          <div class="panel-heading">
+            <span>{{'LIST_NEW_ITEM.SUCCESS' | translate}}</span>
+          </div>
+          <div class="panel-body">
+            <span>{{'LIST_NEW_ITEM.SUCCESS_TEXT' | translate}}</span>
+            <br />
+            <h4>
+              <code id="myAddressElement">{{item_address}}</code>
+              <br />
+            </h4>
+            <button class="btn btn-default btn-xs" type="button" (click)="copyToClipboard('myAddressElement')">
+              <span class="b
+          </div>old">{{'COMMON.COPY' | translate}}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div id="overflow" (click)="closePic($event)" [class.hidden]="!modal"></div>
+
+  <div id="picModal" class="modal" *ngFor="let crop of cropImages; let i = index;" [class.hidden]="!cropImages[i].active">
+    <div class="cropper-container">
+      <img-cropper [image]="crop" [settings]="cropperSettings"></img-cropper>
+    </div>
+
+
+
+    <div class="crop-image" [ngStyle]="{'background-image': 'url(' + crop.image + ')'}"></div>
+
+    <div style="clear: both"> </div>
+    <div class="form-group modal-buttons">
+      <button class="btn btn-warning" type="button" [disabled]="!cropImages[i].image" (click)="sendImage($event, i)">
+        <i class="fa fa-check"></i>
+        <span class="bold">{{'COMMON.UPLOAD' | translate}}</span>
+      </button>
+      <button class="btn btn-warning" type="button" (click)="closePic($event)">
+        <i class="fa fa-times"></i>
+        <span class="bold">{{'COMMON.CANCEL' | translate}}</span>
+      </button>
+    </div>
+
+  </div>
+</div>

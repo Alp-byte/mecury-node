@@ -1,0 +1,30 @@
+.error {
+    display: block;
+    color: red;
+}
+.btn {
+    opacity: .7;
+    &.touched {
+        opacity: 1;
+    }
+}
+.image-container {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.container-center {
+    margin-top: 0%;
+}
+
+
+.btn-cheatcode {
+    float: right;
+    margin-top: -32px;
+}
+
+.cheatcode {
+    margin-bottom: 10px;
+}
+

@@ -1,0 +1,1 @@
+{"requestType":"listItem","goods":{"title":"Test Item X","cat":["ART"],"tags":["test"],"description":"Description","img":[],"price":"10000000","quantity":2,"expireTime":2419200,"escrow":"0xeb5fa6cbf2aca03a0df228f2df67229e2d3bd01e","ship":[{"cost":"0","ship":"Free"}]}}

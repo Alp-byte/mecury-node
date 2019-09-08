@@ -1,0 +1,22 @@
+<div class="notification-type-list-item">
+  <div class="tooltip _top _steady _ready" [class.active]="showTip == index">
+    <div class="tip-cont" (mouseenter)="showTip = index" (mouseleave)="showTip = -1" [ngSwitch]="notification.type">
+      <i *ngSwitchCase="'dispute_message'" class="fa fa-comment" aria-hidden="true"></i>
+      <i *ngSwitchCase="11" class="fa fa-usd" aria-hidden="true"></i>
+      <i *ngSwitchCase="2" class="fa fa-check" aria-hidden="true"></i>
+      <i *ngSwitchCase="'dispute_sale'" class="fa fa-comments" aria-hidden="true"></i>
+      <i *ngSwitchCase="'item_expired'" class="fa fa-clock-o" aria-hidden="true"></i>
+      <i *ngSwitchCase="4" class="fa fa-ban" aria-hidden="true"></i>
+      <i *ngSwitchCase="3" class="fa fa-ban" aria-hidden="true"></i>
+      <i *ngSwitchCase="1" class="fa fa-money" aria-hidden="true"></i>
+      <i *ngSwitchCase="'dispute_closed'" class="fa fa-thumbs-up" aria-hidden="true"></i>
+      <i *ngSwitchCase="'funds_widthdrawn'" class="fa fa-level-up" aria-hidden="true"></i>
+      <i *ngSwitchDefault class="fa fa-bell-o" aria-hidden="true"></i>
+    </div>
+    <div class="tip">
+      <div class="tip-tip">
+        <span id="close-button" style="display: none;">×</span>{{notification.title+'_EXT' | translate}}</div>
+      <div class="tip-arrow"></div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,70 @@
+.viewed {
+    background-color: rgb(60, 62, 71);
+    padding: 10px;
+    overflow: hidden;
+    height: 296px;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-top: 20px;
+    h2 {
+        /* text-align: center; */
+        font-size: 16px;
+        margin-top: -10px;
+        background-color: #24262d;
+        width: 100%;
+        padding: 14px;
+        /* height: 20px; */
+    }
+    span.category {
+        color: rgba(208, 208, 208, 0.97);
+        position: absolute;
+        left: 5px;
+        bottom: -1px;
+        background-color: rgba(0, 0, 0, 0.4);
+        padding: 5px;
+        padding-left: 10px; 
+        padding-right: 10px;
+    }
+    .item {
+        width: 24.5%;
+        padding: 5px;
+        position: relative;
+        height: 200px;
+        margin-left: 0.25%;
+        margin-right: 0.25%;
+        display: inline-block;
+        cursor: pointer;
+    }
+    .image-container img {
+        width: 100%;
+    }
+    code {
+        position: absolute;
+        z-index: 1;
+        right: 8px;
+        bottom: 1px;
+    }
+
+    .name {
+        position: absolute;
+        left: 0px;
+        /* top: 1px; */
+        padding-top: 5px;
+        padding-bottom: 5px;
+        margin-left: 5px;
+        margin-right: 5px;
+        background-color: rgba(0, 0, 0, 0.6);
+        color: #ececed;
+        bottom: 30%;
+        /* height: 30px; */
+        /* top: calc(40% - 30px); */
+        text-align: center;
+        /* vertical-align: middle; */
+        text-transform: uppercase;
+        width: calc(100% - 10px);
+        /* min-height: 50px; */
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+}

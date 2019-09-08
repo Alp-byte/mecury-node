@@ -1,0 +1,29 @@
+Buy order #1:
+
+address: '0xa820f527c6cdcf56e0dd53f047ddf50841f1b449'
+
+dataInfo: {"private":
+{"msg":"DiiZ11ihnZzon8+hfEuWlkZKPhQ1ohxV8VNVMWyLoyo=",
+"iv":"0x95cba97f5c9013daaa20e1a5ad1d43da","cipher":"aes-256-cbc",
+"key":{"enc":
+{"msg":"lPuK2WFIozQZMek3tvApQHdjTmsbbsooGk5+ch8oAPrDPpu/d+cS9izI0CBYqoF994Wr7ytWgi2+0OzpqhL2QYacYTxLNtS+vtiuQZ2aXhc=",
+"iv":"0x4f2977ae2c00552b4074e499ecf01292","cipher":"aes-256-cbc",
+"nonce":"0xb6826234e3efe1d9912e397e9d2f71f0ff72d29fe10733516ea713ea32a61e0d"}},
+"pubkey":"0x0b16c2009704a8047d99639fe2cbb099936216f48312f2d8226c4a2a96da0974"}} 
+
+lockId:"7720153675935269715"
+
+Buy order #2:
+
+address: '0xd054c5a6645d7a854b7357449b971dd264f216f3'
+
+dataInfo: {"private":
+{"msg":"pvtIxInyie4ikbiftdFZikc5EYcDGA5C/dRRwfqQLYiAa22ZqEvAm/A07x9jl7103HTM55ZUNGoNDoQ7ZC83rA==",
+"iv":"0x63b050bc7b64c9c7ac6347aea018848d","cipher":"aes-256-cbc",
+"key":{"enc":
+{"msg":"Oa5T2SmQYiJSiHJ75u7K9P2xWsMNQqSBYjyHjxr2VUtrDdWHi559DoOlDl228Cphv8MWTakVJ8OhH5+c9yS6wpYKQulVMqK4ITxpTq5HNB4=",
+"iv":"0xa5c4c18263d8b991d265fc6f4e2d9a45","cipher":"aes-256-cbc",
+"nonce":"0xef045fbf44eadc8f4188b16251f8fd1bb9b2787078d32e63dcb9a7b2abc310de"}},
+"pubkey":"0x0b16c2009704a8047d99639fe2cbb099936216f48312f2d8226c4a2a96da0974"}}
+
+tradeId:"12790250850146722829"

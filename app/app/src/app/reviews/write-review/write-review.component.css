@@ -1,0 +1,21 @@
+textarea {
+    width: 100%;
+    background-color: #838b93;
+    color: black;
+}
+
+.container {
+    width: 700px;
+    float: left;
+}
+
+
+.stars {
+    color: #ffa800;
+    font-size: 20px;
+    float:left;
+}
+
+button {
+    float:right;
+}

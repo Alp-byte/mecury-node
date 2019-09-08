@@ -1,0 +1,31 @@
+Node deployment:
+
+- Install geth. Setup to run a private network. Byzantium HF should be supported.
+- Initialize with default genesis.json file.
+- Setup sync with running nodes using static-nodes.json.
+- Install MySQL and create tables using ecache/database.txt file. Set MySQL password using the password from ecache-default.conf.
+- Modify ecache.conf to run on the testnet using ports 8546 for geth and 18546 for ecache.
+- Start geth and ecache.
+- Ports 8546, 18546 and 30303 should be opened.
+
+Blockchain environment deployment:
+
+- Download myetherwallet source code and open index.html.
+- Choose Network->Add Custom Node and enter one of private network nodes. Select "Custom", "Supports EIP-155" and enter network id = 15.
+- Refill your account with some test ETH.
+- Copy-paste Minime.sol code into online solidity editor, choose 0.4.11 version and "Enable Optimisation". Compile.
+- Open Minime details and copy web3 deployment code into minime.txt. Modify minime.txt for proper token values eg token name and token symbol. Decimals = 8.
+- Use synced with the private network node and attach into geth console (might be tricky).
+- Add your wallet file into geth keystore.
+- Check if your account it present: type into geth console "eth.accounts"
+- Unlock it: "personal.unlockAccount(eth.accounts[0], "password")"
+- Copy web3 deployment script into console and press Enter.
+- Look for contract address in console or private network block explorer.
+- Change contract address to checksumed format: web3.toChecksumAddress(contractAddress).
+- Put the contract address into emarket/token/api.js and contracts/Store.sol
+- Copy-paste Store.sol code into online solidity editor and compile.
+- Open Store details and copy bytecode.
+- Use Myetherwallet to deploy the bytecode. Write down the contract address.
+- Check with Myetherwallet that Store and Minime contracts are functioning properly.
+- Put Store contract address into emarket/defaults.js
+- Store is ready for use!

@@ -1,0 +1,40 @@
+<div class="panel-body">
+	<div class="row">
+		<div class="col-md-12">
+			<div>
+				<div class="form-group">
+					<h4>{{'PREFERENCES.SAVED_ADDRESS_LIST' | translate}}</h4>
+					<label for="ShippingAddress">
+
+					</label>
+					<input type="text" ng-model="shipping_address" required class="form-control" name="ShippingAddress" [(ngModel)]="addressField"
+					 placeholder="{{ 'PREFERENCES.SAVED_ADDRESS_FIELD' | translate }}">
+				</div>
+				<form novalidate>
+					<button type="submit" (click)="addAddress(shipping_address)" class="btn btn-warning" [disabled]="addressField.trim().length < 3">{{'PREFERENCES.ADDRESS_ADD_BUTTON' | translate}}</button>
+				</form>
+			</div>
+			<br />
+			<h5>{{'PREFERENCES.ADDRESS_LIST_HEADER' | translate}}</h5>
+			<div class="table-responsive">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>{{'PREFERENCES.SAVED_ADDRESS_HEADER' | translate}}</th>
+
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let address of addresses; let i = index">
+							<td>{{address}}</td>
+							<td>
+								<button type="submit" class="btn btn-danger btn-xs" (click)="removeAddress(i)">{{'PREFERENCES.ADDRESS_REMOVE_BUTTON' | translate}}</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+		</div>
+	</div>
+</div>

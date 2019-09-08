@@ -1,0 +1,33 @@
+<div class="table-responsive">
+  <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+      <div class="row">
+          <div class="col-sm-12">
+              <table class="table table-striped table-hover ng-isolate-scope dataTable no-footer" style="display: table; width:100%;" >
+                  <thead>
+                      <tr role="row" class="ng-scope">
+                          <th>{{'TRANSACTIONS.TIME' | translate}}</th>
+                          <th>{{'COMMON.TITLE' | translate}}</th>
+                          <th>{{'TRANSACTIONS.HASH' | translate}}</th>
+                          <th style="white-space: nowrap;">{{'TRANSACTIONS.STATUS' | translate}}</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <!-- <td colspan=4 class="noitems" *ngIf="!transactionsList || !transactionList.length">
+                          <span >{{'COMMON.NONE' | translate}}</span>
+                      </td> -->
+                      <tr class="ng-scope transaction-{{transaction.status}}" *ngFor="let transaction of transactionList">
+                          <td *ngIf="transaction.timestamp"> {{transaction.timestamp | date: 'short'}} </td>
+                          <td class="truncate" title="{{transaction.title}}"> {{'TRANSACTIONS.' + transaction.title.toUpperCase() | translate}}<ng-template [ngIf]="transaction.item">: "{{transaction.item}}"</ng-template> </td>
+                          <td *ngIf="transaction.hash && (transaction.hash.indexOf('TRANSACTION') >= 0) ">{{('TRANSACTIONS.' + transaction.hash | translate) || null}}  </td>
+                          <td *ngIf="transaction.hash && (transaction.hash.indexOf('TRANSACTION') == -1) ">{{(transaction.hash) || null}}  </td>
+                          <td *ngIf="transaction.error">{{transaction.error}}
+                              <span *ngIf="transaction.code == 'newitem' && transaction.itemObj" (click)="relist(transaction.itemObj)" style="cursor:pointer">Try again</span>
+                          </td>
+                          <td>{{'TRANSACTIONS.' + transaction.status.toUpperCase() | translate}}</td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+</div>

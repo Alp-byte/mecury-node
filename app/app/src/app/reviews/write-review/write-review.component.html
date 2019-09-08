@@ -1,0 +1,32 @@
+<div class="container-fluid">
+  
+      <div class="row">
+          <div class="col-lg-12">
+              <div class="view-header">
+  
+                  <div class="header-icon">
+                      <i class="pe page-header-icon  fa fa-tachometer"></i>
+                  </div>
+                  <div class="header-title">
+                      <h3>{{'REVIEWS.LEAVE_REVIEW_HEADING' | translate}}
+                      </h3>
+                      <small>{{'REVIEWS.LEAVE_REVIEW_TEXT' | translate}}</small>
+                  </div>
+              </div>
+              <hr>
+          </div>
+      </div>
+      <!-- Begin Language Options -->
+      <div class="row">
+          <div class="col-lg-12">
+              <div class="container">
+                  <textarea name="" id="" cols="30" rows="10" [(ngModel)]="text"></textarea>
+                  <div class="stars"><i class="fa " [class.fa-star-o]="rating<1" [class.fa-star]="rating>=1" (click)="_rating(1)"></i>
+                      <i class="fa " [class.fa-star-o]="rating<2" [class.fa-star]="rating>=2" (click)="_rating(2)"></i>
+                      <i class="fa " [class.fa-star-o]="rating<3" [class.fa-star]="rating>=3" (click)="_rating(3)"></i>
+                      <i class="fa " [class.fa-star-o]="rating<4" [class.fa-star]="rating>=4" (click)="_rating(4)"></i>
+                      <i class="fa " [class.fa-star-o]="rating<5" [class.fa-star]="rating>=5" (click)="_rating(5)"></i></div>
+                  <button class="btn btn-next btn-warning" [disabled]="rating<1" (click)="submit()">Submit</button>
+              </div>
+          </div>
+      </div>

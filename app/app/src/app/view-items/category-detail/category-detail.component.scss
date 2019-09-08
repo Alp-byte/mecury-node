@@ -1,0 +1,111 @@
+.thumbView {
+    &.panel-filled {
+        background-color: rgba(68, 70, 79, 0.5);
+        width: 33%;
+        float: left;
+        margin-left: 0.3%;
+        // overflow: hidden;
+        height: 330px;
+        position: relative;
+    }
+    h3 {
+        font-size: 17px;
+    }
+    .img-container {
+        width: 100%;
+    }
+    img {
+        max-width: 100%;
+        max-height: 200px;
+        margin: auto;
+    }
+
+}
+
+.panel-filled:hover {
+    cursor: pointer;
+    background-color: rgba(108, 110, 115, 0.78);
+}
+
+.inactive { 
+    opacity: .3;
+}
+
+span.category {
+    color: #939aa1;
+    padding: 5px;
+    margin: 3px;
+    background-color: #2a2d35;
+    display: inline-block;
+    
+}
+.category:hover {
+
+    color: white;
+    background-color: #4e4e4e;
+    cursor: pointer;
+    
+}
+
+.categories-inner {
+    white-space: nowrap;
+    width: 100%;
+    overflow-x: scroll;
+}
+
+.panel-heading {
+    height: 55px;
+}
+
+.thumbs-control {
+    float: right;    
+    margin-top: 7px;
+    i {
+        cursor: pointer;
+    }
+}
+
+.item-title {
+    padding-bottom: 14px;
+    padding-left: 20px;
+}
+
+.tooltip-container {
+    top: 1px;
+    right: 0;
+    z-index: 3;
+    position: absolute;
+    margin-right: 0px;
+    width: 60px;
+    padding-top: 5px;
+}
+
+i {
+    color:#f6a821;
+    margin-right: 5px;
+}
+    
+.thumbView .characteristics {
+    padding-top: 10px;
+}
+
+tooltip {
+    margin-top: -6px;
+}
+
+.thumbView tooltip {
+    margin-top:0px;
+}
+
+.yellow {
+    color: yellow;
+}
+
+.red {
+    color: red;
+}
+
+.dropdown {
+    margin-top: 0px !important;
+    z-index:10;
+}

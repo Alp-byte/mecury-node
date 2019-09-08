@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <title>The App</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,700' rel='stylesheet' type='text/css'>
+    <base href="./">
+    
+    <style>
+        .preloader {
+            text-align: center;
+            top: 50%;
+            left: 0;
+            right: 0;
+            position: fixed;
+            margin-top: -70px;
+            color: #ee6e73;
+            font-weight: 300;
+            font-size: 37px;
+        }
+    </style>
+    
+    <script>
+        function isElectron() {
+            return window && window['process'] && window['process']['type']
+        }
+
+        if (isElectron()){
+            console.log('iselectron, require ipcRenderer');
+            var ipc = require('electron').ipcRenderer;
+        }
+    </script>
+</head>
+
+<body>
+    <div class="preloader">
+        <span>THE APP</span>
+    </div>
+    
+    
+    
+    
+    <script src="app/dist/vendor.js"></script>
+    
+    <script src="app/dist/app.js"></script>
+</body>
+
+</html>

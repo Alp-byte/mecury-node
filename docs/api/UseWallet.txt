@@ -1,0 +1,1 @@
+{"requestType":"useWallet", "index":0, "password":"hello!"}
