@@ -11,7 +11,7 @@
     "second": "electron . second"
   },
   "devDependencies": {
-    "electron": "^3.0.4",
+    "electron": "^9.1.0",
     "electron-builder": "^20.28.4",
     "electron-debug": "^2.0.0",
     "electron-packager": "^12.1.2",
