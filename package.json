@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/Bitboost/bitboost-app-source.git#readme",
   "devDependencies": {
-    "electron": "^3.0.4",
+    "electron": "^9.1.0",
     "electron-builder": "^20.28.4",
     "electron-packager": "^12.1.2",
     "electron-webpack": "^2.3.1",
